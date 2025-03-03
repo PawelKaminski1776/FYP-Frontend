@@ -23,8 +23,9 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: 800px;
+  height: 300px;
   min-width: none;
+  margin-top: 100px;
 }
 
 .img-text {
@@ -36,6 +37,7 @@ body{
   position: relative;
   animation: fadeInUp, 2s;
 }
+
 
 @keyframes fadeInUp {
   from {
