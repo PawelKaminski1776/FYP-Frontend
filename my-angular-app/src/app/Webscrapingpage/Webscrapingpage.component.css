@@ -9,31 +9,33 @@ body{
   color: #2c2c2c;
 }
 
-.card {
-  padding: 20px;
-}
+
 
 .Card-Column {
-  margin-top: 50px;
-  height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
 }
 
 .Card-Row {
-  height: 350px;
+  margin-top: 50px;
+  height: 500px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
 
+table {
+  width: 50%;
+}
+
+form {
+  width: 35%;
+}
 /*
 black: #2c2c2c
 green: #116530
 pink: #ff8c8c
 lightblue: #9ad7f1
 white: #f8f8f8
-blue2: #2eabe0
-po
  */

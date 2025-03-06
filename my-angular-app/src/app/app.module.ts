@@ -7,8 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app.routes';
 import { LoginpageComponent } from './Loginpage/Loginpage.component';
 import { InspectiontrainingpageComponent } from './Inspectiontrainingpage/Inspectiontrainingpage.component';
-import { HttpClient } from '@angular/common/http';
-
+import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,10 +22,9 @@ import { HttpClient } from '@angular/common/http';
   imports: [
     BrowserModule,
     FormsModule, 
-    AppRoutingModule,
-    HttpClient
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent] 
 })
 export class AppModule { }

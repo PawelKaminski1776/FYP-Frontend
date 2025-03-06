@@ -1,0 +1,47 @@
+<main class="main">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #2eabe0;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="assets/Images/logo.jpg" width="30" height="30" alt="Logo">
+      </a>
+      <a class="navbar-brand" href="#">Inspection Analysis</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li *ngIf="isLoggedIn" class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/home">Home</a>
+          </li>
+          <li *ngIf="!isLoggedIn" class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/login">Login</a>
+          </li>
+          <li *ngIf="!isLoggedIn" class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/signup">Sign Up</a>
+          </li>
+          <li *ngIf="isLoggedIn" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+              Create a New Inspection
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Create a new Dataset</a></li>
+              <li><a class="dropdown-item" href="/webscrape">Web scrape Images</a></li>
+            </ul>
+          </li>
+          <li *ngIf="isLoggedIn" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+              Current Inspection Patterns
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/InspectionTraining">Occupancy Inspection Training</a></li>
+              <li><a class="dropdown-item" href="#">Maintenance Inspection Training</a></li>
+            </ul>
+          </li>
+          <li *ngIf="LogOut()" class="nav-item">
+            <a class="nav-link active" aria-current="page" href="">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</main>
