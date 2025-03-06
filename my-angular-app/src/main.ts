@@ -1,5 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { LoginpageComponent } from './app/Loginpage/Loginpage.component'
-import { appConfig } from './app/app.config';
+import { AppComponent } from './app/app.component';
+import { AppModule } from './app/app.module';
 
-bootstrapApplication(LoginpageComponent, appConfig).catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+    providers: [AppModule]  
+  }).catch((err) => console.error(err));

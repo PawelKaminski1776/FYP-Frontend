@@ -3,14 +3,18 @@ import { FormsModule } from '@angular/forms';
 import { LoginpageComponent } from './Loginpage/Loginpage.component';
 import { InspectiontrainingpageComponent } from './Inspectiontrainingpage/Inspectiontrainingpage.component';
 import { HomepageComponent } from './Homepage/Homepage.component';
-import { AppRoutingModule } from './app.routes';
+import { CommonModule } from '@angular/common';
+import { NavbarComponent } from './Navbar/Navbar.component';
+import { WebscrapingpageComponent } from './Webscrapingpage/Webscrapingpage.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  imports: [AppRoutingModule, FormsModule, LoginpageComponent, InspectiontrainingpageComponent, HomepageComponent],
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  imports: [CommonModule, NavbarComponent, WebscrapingpageComponent,  FormsModule, LoginpageComponent, InspectiontrainingpageComponent, HomepageComponent]
 })
+
 export class AppComponent {
-  title = 'my-angular-app';
+  title = 'AppComponent'
 }
+
