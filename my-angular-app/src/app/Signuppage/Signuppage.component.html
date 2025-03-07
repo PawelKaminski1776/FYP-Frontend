@@ -1,0 +1,57 @@
+<app-navbar></app-navbar>
+<div class="Card-Column">
+  <div class="Card-Row">
+    <div class="card" style="width: 36rem;">
+      <form [formGroup]="createAccountForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="forenameInput" class="form-label">Forename</label>
+          <input type="text" class="form-control" id="forenameInput" formControlName="forename" />
+          <small *ngIf="createAccountForm.get('forename')?.invalid && createAccountForm.get('forename')?.touched" class="text-danger">
+            Forename is required.
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="surnameInput" class="form-label">Surname</label>
+          <input type="text" class="form-control" id="surnameInput" formControlName="surname" />
+          <small *ngIf="createAccountForm.get('surname')?.invalid && createAccountForm.get('surname')?.touched" class="text-danger">
+            Surname is required.
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="companyInput" class="form-label">Company Name</label>
+          <input type="text" class="form-control" id="companyInput" formControlName="company" />
+          <small *ngIf="createAccountForm.get('company')?.invalid && createAccountForm.get('company')?.touched" class="text-danger">
+            Company name is required.
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="InputEmail1" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="InputEmail1" formControlName="email" />
+          <small *ngIf="createAccountForm.get('email')?.invalid && createAccountForm.get('email')?.touched" class="text-danger">
+            Please enter a valid email.
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="InputPassword1" class="form-label">Password</label>
+          <input type="password" class="form-control" id="InputPassword1" formControlName="password" />
+          <small *ngIf="createAccountForm.get('password')?.invalid && createAccountForm.get('password')?.touched" class="text-danger">
+            Password must be at least 6 characters.
+          </small>
+        </div>
+
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="createAccountForm.invalid">Sign Up</button>
+
+        <p *ngIf="accountCreationError" style="color: red;">{{ accountCreationError }}</p>
+      </form>
+    </div>
+  </div>
+</div>

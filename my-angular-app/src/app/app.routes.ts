@@ -4,6 +4,7 @@ import { HomepageComponent } from './Homepage/Homepage.component';
 import { LoginpageComponent } from './Loginpage/Loginpage.component';
 import { WebscrapingpageComponent } from './Webscrapingpage/Webscrapingpage.component';
 import { InspectiontrainingpageComponent } from './Inspectiontrainingpage/Inspectiontrainingpage.component';
+import { SignuppageComponent } from './Signuppage/Signuppage.component';
 
 export const routes: Routes = [
   {
@@ -14,6 +15,10 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./Loginpage/Loginpage.component').then(m => m.LoginpageComponent)
+  },
+  {
+    path: 'signup',
+    loadComponent: () => import('./Signuppage/Signuppage.component').then(m => m.SignuppageComponent)
   },
   {
     path: 'home',

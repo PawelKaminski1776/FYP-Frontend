@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SessionStorageService } from '../storage.service';
+import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,7 @@ import { SessionStorageService } from '../storage.service';
 export class NavbarComponent {
   isLoggedIn: boolean = false;
 
-  constructor(private sessionStorageService: SessionStorageService) {}
+  constructor(private sessionStorageService: SessionStorageService, private navigationService: NavigationService) {}
 
   ngOnInit(): void {
     this.sessionStorageService.isLoggedIn().subscribe(status => {

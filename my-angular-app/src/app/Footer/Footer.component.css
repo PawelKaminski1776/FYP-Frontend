@@ -1,0 +1,17 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+}
+
+.footer {
+    background-color: #2eabe0;
+    height: 200px;
+    width: 100%;
+    margin-top: 150px;
+}
