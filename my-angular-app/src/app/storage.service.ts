@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { NavigationService } from './navigation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class SessionStorageService {
   private storageSubjects: Map<string, BehaviorSubject<any>> = new Map();
 
-  constructor() {}
+  constructor(private navigationService: NavigationService) {}
 
   // Set a value in sessionStorage and notify observers
   setItem(key: string, value: any): void {
@@ -47,6 +48,9 @@ export class SessionStorageService {
   clear(): void {
     sessionStorage.clear();
     this.storageSubjects.forEach(subject => subject.next(null));
+    setTimeout(() => {
+      this.navigationService.navigateTo('/login');
+    }, 100);
   }
 
   // Check if the user is logged in (as an observable)

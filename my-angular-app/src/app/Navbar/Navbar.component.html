@@ -37,8 +37,8 @@
               <li><a class="dropdown-item" href="#">Maintenance Inspection Training</a></li>
             </ul>
           </li>
-          <li *ngIf="LogOut()" class="nav-item">
-            <a class="nav-link active" aria-current="page" href="">Logout</a>
+          <li *ngIf="isLoggedIn" class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#" (click)="LogOut()">Logout</a>
           </li>
         </ul>
       </div>

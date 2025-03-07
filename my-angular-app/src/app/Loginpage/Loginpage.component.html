@@ -2,7 +2,7 @@
 <div class="Card-Column">
   <div class="Card-Row">
     <div class="card" style="width: 36rem;">
-      <form (ngSubmit)="onSubmit($event)">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">Email address</label>
           <input
@@ -10,9 +10,12 @@
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
-            [(ngModel)]="email"
             name="email"
+            formControlName="email"
           />
+          <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
+            Email is required.
+          </small>
           <div id="emailHelp" class="form-text">
             We'll never share your email with anyone else.
           </div>
@@ -23,9 +26,12 @@
             type="password"
             class="form-control"
             id="exampleInputPassword1"
-            [(ngModel)]="password"
             name="password"
+            formControlName="password"
           />
+          <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
+            Password is required.
+          </small>
         </div>
         <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="exampleCheck1" />

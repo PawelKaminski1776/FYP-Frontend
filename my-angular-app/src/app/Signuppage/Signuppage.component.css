@@ -1,0 +1,39 @@
+/* src/app/homepage/homepage.component.css */
+body{
+  background-color: #f8f8f8;
+}
+
+.main {
+  background-color: 	#116530;
+  text-align: center;
+  color: #2c2c2c;
+}
+
+.card {
+  padding: 20px;
+}
+
+.Card-Column {
+  margin-top: 50px;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.Card-Row {
+  height: 700px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+/*
+black: #2c2c2c
+green: #116530
+pink: #ff8c8c
+lightblue: #9ad7f1
+white: #f8f8f8
+blue2: #2eabe0
+po
+ */
