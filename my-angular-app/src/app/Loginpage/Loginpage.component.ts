@@ -24,7 +24,7 @@ export class LoginpageComponent {
     if (this.email === 'John@gmail.com' && this.password === 'password') {
       console.log("Trigger started");
       this.sessionStorageService.setItem('loggedIn', true);
-      console.log(this.sessionStorageService.getItem('loggedin'))
+      console.log(this.sessionStorageService.getItem('loggedIn'))
       setTimeout(() => {
         console.log("Trigger ended")
         this.navigationService.navigateTo('/home');

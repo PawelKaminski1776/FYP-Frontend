@@ -6,12 +6,13 @@ import { HomepageComponent } from './Homepage/Homepage.component';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './Navbar/Navbar.component';
 import { WebscrapingpageComponent } from './Webscrapingpage/Webscrapingpage.component';
+import { AppRoutingModule } from './app.routes';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [CommonModule, NavbarComponent, WebscrapingpageComponent,  FormsModule, LoginpageComponent, InspectiontrainingpageComponent, HomepageComponent]
+  imports: [AppRoutingModule,CommonModule, NavbarComponent, WebscrapingpageComponent,  FormsModule, LoginpageComponent, InspectiontrainingpageComponent, HomepageComponent]
 })
 
 export class AppComponent {

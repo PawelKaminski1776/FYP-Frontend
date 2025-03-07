@@ -7,12 +7,13 @@ import { SessionStorageService } from '../storage.service';
   selector: 'app-homepage', 
   templateUrl: './Homepage.component.html',
   styleUrls: ['./Homepage.component.css'],
-  imports: [NavbarComponent],
-  standalone: true
+  imports: [NavbarComponent]
 })
 export class HomepageComponent implements OnInit {
+    isLoggedIn = true; 
     constructor(private sessionStorageService: SessionStorageService){}
     ngOnInit(): void {
-      this.sessionStorageService.getItem('loggedIn')
+      this.sessionStorageService.setItem('loggedIn', true);
     }
+    
 }

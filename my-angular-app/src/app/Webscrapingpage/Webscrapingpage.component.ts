@@ -3,12 +3,15 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import { NavbarComponent } from '../Navbar/Navbar.component';
 
 @Component({
   selector: 'app-webscrapingpage',
   templateUrl: './Webscrapingpage.component.html',
   styleUrls: ['./Webscrapingpage.component.css'],
-  imports: [ReactiveFormsModule, CommonModule]
+  imports: [ReactiveFormsModule, CommonModule, NavbarComponent],
+  providers: []
 })
 export class WebscrapingpageComponent {
   webScrapingForm: FormGroup;

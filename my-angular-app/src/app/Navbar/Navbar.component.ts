@@ -16,8 +16,15 @@ export class NavbarComponent {
   constructor(private sessionStorageService: SessionStorageService) {}
 
   ngOnInit(): void {
-    // Check if the user is logged in
-    this.isLoggedIn = this.sessionStorageService.isLoggedIn();
+    this.sessionStorageService.isLoggedIn().subscribe(status => {
+      this.isLoggedIn = status; // Update the value when it changes
+    });
+  }
+  
+
+  ngOnChange(): void {
+    this.isLoggedIn = this.sessionStorageService.getItem('loggedIn');
+    console.log(this.sessionStorageService.getItem('loggedIn'))
   }
 
   LogOut(): void {
