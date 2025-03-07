@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app.routes';
 import { LoginpageComponent } from './Loginpage/Loginpage.component';
 import { InspectiontrainingpageComponent } from './Inspectiontrainingpage/Inspectiontrainingpage.component';
-import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,6 @@ import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
     HomepageComponent,
     InspectiontrainingpageComponent,
     LoginpageComponent,
-    HttpClient
   ],
   imports: [
     BrowserModule,
