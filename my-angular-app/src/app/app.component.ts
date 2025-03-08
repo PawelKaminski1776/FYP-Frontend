@@ -5,7 +5,7 @@ import { InspectiontrainingpageComponent } from './Inspectiontrainingpage/Inspec
 import { HomepageComponent } from './Homepage/Homepage.component';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './Navbar/Navbar.component';
-import { WebscrapingpageComponent } from './Webscrapingpage/Webscrapingpage.component';
+import { InspectionpageComponent } from './Inspectionpage/Inspectionpage.component'
 import { SignuppageComponent } from './Signuppage/Signuppage.component';
 import { AppRoutingModule } from './app.routes';
 import { FooterComponent } from './Footer/Footer.component';
@@ -14,7 +14,7 @@ import { FooterComponent } from './Footer/Footer.component';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [AppRoutingModule, FooterComponent,CommonModule, NavbarComponent, SignuppageComponent,WebscrapingpageComponent,  FormsModule, LoginpageComponent, InspectiontrainingpageComponent, HomepageComponent]
+  imports: [AppRoutingModule, FooterComponent,CommonModule, NavbarComponent, SignuppageComponent,InspectionpageComponent,  FormsModule, LoginpageComponent, InspectiontrainingpageComponent, HomepageComponent]
 })
 
 export class AppComponent {
