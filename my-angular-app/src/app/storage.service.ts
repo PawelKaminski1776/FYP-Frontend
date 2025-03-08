@@ -8,7 +8,7 @@ import { NavigationService } from './navigation.service';
 export class SessionStorageService {
   private storageSubjects: Map<string, BehaviorSubject<any>> = new Map();
 
-  constructor(private navigationService: NavigationService) {}
+  constructor(private navigationService: NavigationService ) {}
 
   // Set a value in sessionStorage and notify observers
   setItem(key: string, value: any): void {

@@ -1,0 +1,22 @@
+<app-navbar></app-navbar>
+<div class="Page-Row">
+  <form [formGroup]="addinspectionForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="formFile" class="form-label">Upload Cocofile</label>
+      <input class="form-control" type="file" id="formFile" formControlName="Cocofile" accept=".json">
+    </div>
+    
+    <div class="mb-3">
+      <label for="formFileMultiple" class="form-label">Upload Cocofile Photos</label>
+      <input class="form-control" type="file" id="formFileMultiple" formControlName="Photos" accept="image/*" multiple>
+    </div>
+    
+    <div class="form-floating">
+      <label for="Inspectionname">Inspection Name</label>
+      <input type="text" class="form-control" id="Inspectionname" formControlName="Inspectionname" placeholder="e.g. Occupancy" required>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
+  
+</div>
+  

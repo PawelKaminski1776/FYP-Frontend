@@ -6,13 +6,13 @@ import { HttpClient } from '@angular/common/http';
 import { NavbarComponent } from '../Navbar/Navbar.component';
 
 @Component({
-  selector: 'app-webscrapingpage',
-  templateUrl: './Webscrapingpage.component.html',
-  styleUrls: ['./Webscrapingpage.component.css'],
+  selector: 'app-inspectionpage',
+  templateUrl: './Inspectionpage.component.html',
+  styleUrls: ['./Inspectionpage.component.css'],
   imports: [ReactiveFormsModule, CommonModule, NavbarComponent],
   providers: []
 })
-export class WebscrapingpageComponent {
+export class InspectionpageComponent {
   webScrapingForm: FormGroup;
   inspectionData: any = null;
 

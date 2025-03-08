@@ -1,10 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomepageComponent } from './Homepage/Homepage.component';
-import { LoginpageComponent } from './Loginpage/Loginpage.component';
-import { WebscrapingpageComponent } from './Webscrapingpage/Webscrapingpage.component';
-import { InspectiontrainingpageComponent } from './Inspectiontrainingpage/Inspectiontrainingpage.component';
-import { SignuppageComponent } from './Signuppage/Signuppage.component';
 
 export const routes: Routes = [
   {
@@ -25,8 +20,12 @@ export const routes: Routes = [
     loadComponent: () => import('./Homepage/Homepage.component').then(m => m.HomepageComponent)
   },
   {
-    path: 'webscrape',
-    loadComponent: () => import('./Webscrapingpage/Webscrapingpage.component').then(m => m.WebscrapingpageComponent)
+    path: 'addinspection',
+    loadComponent: () => import('./Addinspectionpage/Addinspectionpage.component').then(m => m.AddInspectionpageComponent)
+  },
+  {
+    path: 'inspection',
+    loadComponent: () => import('./Inspectionpage/Inspectionpage.component').then(m => m.InspectionpageComponent)
   },
   {
     path: 'inspection-training',
