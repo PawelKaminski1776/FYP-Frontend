@@ -37,7 +37,38 @@ pipeline {
 					}
             }
         }
-
+		
+		 stage('Build Docker Image') {
+            steps {
+                dir('my-angular-app') {
+                    bat "docker build -t ${DOCKER_IMAGE} ."
+                }
+            }
+        }
+		
+		
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    // Stop and remove the old container if it exists
+                    sh """
+                    docker stop ${CONTAINER_NAME} || true
+                    docker rm ${CONTAINER_NAME} || true
+                    docker run -d -p 80:80 --name ${CONTAINER_NAME} ${DOCKER_IMAGE}
+                    """
+                }
+            }
+        }	
+		
+		post {
+			success {
+				echo 'Docker Deployment successful!'
+			}
+			failure {
+				echo 'Docker Deployment failed!'
+			}
+		}
+		
         stage('Test') {
             steps {
 				dir('my-angular-app') {
