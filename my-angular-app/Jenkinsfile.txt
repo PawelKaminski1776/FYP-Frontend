@@ -22,22 +22,6 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                dir('my-angular-app') {
-                    bat 'npm install'
-                }
-            }
-        }
-
-        stage('Build') {
-            steps {
-                dir('my-angular-app') {
-                    bat 'ng build --configuration production'
-                }
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 dir('my-angular-app') {
@@ -66,7 +50,6 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Modify this step to deploy to your desired location
                 echo "Deploying the Angular application..."
             }
         }
