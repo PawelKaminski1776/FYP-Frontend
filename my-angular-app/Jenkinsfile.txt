@@ -60,15 +60,6 @@ pipeline {
             }
         }	
 		
-		post {
-			success {
-				echo 'Docker Deployment successful!'
-			}
-			failure {
-				echo 'Docker Deployment failed!'
-			}
-		}
-		
         stage('Test') {
             steps {
 				dir('my-angular-app') {
