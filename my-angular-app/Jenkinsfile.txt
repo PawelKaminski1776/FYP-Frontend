@@ -32,13 +32,17 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'ng build --configuration production'
+				dir('my-angular-app') {
+					bat 'ng build --configuration production'
+					}
             }
         }
 
         stage('Test') {
             steps {
-                bat 'ng test --watch=false --browsers=ChromeHeadless'
+				dir('my-angular-app') {
+					bat 'ng test --watch=false --browsers=ChromeHeadless'
+					}
             }
         }
 
