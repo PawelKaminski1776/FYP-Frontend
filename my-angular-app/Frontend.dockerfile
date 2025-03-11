@@ -3,12 +3,10 @@ FROM node:22 as build
 
 WORKDIR /app
 
-# Copy package.json and package-lock.json first to install dependencies
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy the rest of the app source code and build
-COPY . .
+COPY . . 
 RUN npm run build -- --configuration production
 
 # Stage 2: Serve with Nginx
@@ -16,6 +14,9 @@ FROM nginx:latest
 
 # Copy the built Angular app to the Nginx HTML folder
 COPY --from=build /app/dist/my-angular-app /usr/share/nginx/html
+
+# Copy custom Nginx configuration file
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80
