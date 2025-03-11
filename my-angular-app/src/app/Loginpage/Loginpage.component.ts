@@ -5,6 +5,7 @@ import { NavigationService } from '../navigation.service';
 import { NavbarComponent } from '../Navbar/Navbar.component';
 import { SessionStorageService } from '../storage.service';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-loginpage',
@@ -29,7 +30,7 @@ export class LoginpageComponent {
       return;
     }
     this.http
-      .post<any>('https://localhost:5002/Api/Accounts/Login', this.loginForm.value)
+      .post<any>(`${environment.CheckLoginapiUrl}/Api/Accounts/Login`, this.loginForm.value)
       .subscribe({
         next: (response) => {
           console.log(response.email);

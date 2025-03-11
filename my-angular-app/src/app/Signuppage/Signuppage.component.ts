@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../Navbar/Navbar.component';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { HttpClient } from '@angular/common/http';
+import { NavigationService } from '../navigation.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-signuppage',
@@ -15,7 +17,7 @@ export class SignuppageComponent {
   createAccountForm: FormGroup;
   accountCreationError = '';
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {
+  constructor(private http: HttpClient, private fb: FormBuilder, private navigationService: NavigationService) {
     this.createAccountForm = this.fb.group({
       forename: ['', Validators.required],
       surname: ['', Validators.required],
@@ -32,10 +34,14 @@ export class SignuppageComponent {
     }
 
     this.http
-      .post<any>('https://localhost:5002/Api/Accounts/AddNewAccount', this.createAccountForm.value)
+      .post<any>(`${environment.UserDetailsapiUrl}/Api/UserDetails/AddNewAccount`, this.createAccountForm.value)
       .subscribe({
         next: (response) => {
-          this.accountCreationError = response.message || 'Account created successfully';
+          if(response.message == 'Request Successful')
+         {
+            this.navigationService.navigateTo('/login');
+            // Add Text Prompt at Top later
+          }
         },
         error: (error) => {
           this.accountCreationError = error.error?.message || 'Error creating account';
