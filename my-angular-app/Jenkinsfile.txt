@@ -8,65 +8,59 @@ pipeline {
     environment {
         CI = "true"
         DOCKER_IMAGE = "angular-app"
-        CONTAINER_NAME = "angular-container"		
+        CONTAINER_NAME = "angular-container"
     }
 
     stages {
-		stage('Checkout') {
-			steps {
-			checkout scm: [
-			$class: 'GitSCM', 
-			branches: [[name: '*/main']],
-			userRemoteConfigs: [[url: 'https://github.com/PawelKaminski1776/FYP-Frontend.git']]
-				]
-			}
-		}
-		
-		
+        stage('Checkout') {
+            steps {
+                checkout scm: [
+                    $class: 'GitSCM', 
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/PawelKaminski1776/FYP-Frontend.git']]
+                ]
+            }
+        }
 
         stage('Install Dependencies') {
             steps {
-				dir('my-angular-app') {
-					bat 'npm install'
-					}
+                dir('my-angular-app') {
+                    bat 'npm install'
+                }
             }
         }
 
         stage('Build') {
             steps {
-				dir('my-angular-app') {
-					bat 'ng build --configuration production'
-					}
-            }
-        }
-		
-		 stage('Build Docker Image') {
-            steps {
                 dir('my-angular-app') {
-                    bat "docker build -t ${DOCKER_IMAGE} ."
+                    bat 'ng build --configuration production'
                 }
             }
         }
-		
-		
+
+        stage('Build Docker Image') {
+            steps {
+                dir('my-angular-app') {
+                    bat "docker build -f Frontend.dockerfile -t ${DOCKER_IMAGE} ."
+                }
+            }
+        }
+
         stage('Run Docker Container') {
             steps {
-                script {
-                    // Stop and remove the old container if it exists
-                    sh """
+                bat """
                     docker stop ${CONTAINER_NAME} || true
                     docker rm ${CONTAINER_NAME} || true
                     docker run -d -p 80:80 --name ${CONTAINER_NAME} ${DOCKER_IMAGE}
-                    """
-                }
+                """
             }
-        }	
-		
+        }
+
         stage('Test') {
             steps {
-				dir('my-angular-app') {
-					bat 'ng test --watch=false --browsers=ChromeHeadless'
-					}
+                dir('my-angular-app') {
+                    bat 'ng test --watch=false --browsers=ChromeHeadless'
+                }
             }
         }
 
