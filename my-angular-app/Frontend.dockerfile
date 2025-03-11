@@ -15,7 +15,7 @@ RUN npm run build -- --configuration production
 FROM nginx:latest
 
 # Copy the built Angular app to the Nginx HTML folder
-COPY --from=build /app/dist/YOUR_PROJECT_NAME /usr/share/nginx/html
+COPY --from=build /app/dist/my-angular-app /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
