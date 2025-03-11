@@ -24,7 +24,9 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'
+				dir('my-angular-app') {
+					bat 'npm install'
+					}
             }
         }
 
