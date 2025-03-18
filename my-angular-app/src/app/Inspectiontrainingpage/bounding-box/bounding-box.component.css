@@ -1,0 +1,32 @@
+.image-container {
+    position: relative;
+    display: inline-block;
+    user-select: none;
+  }
+  
+  .image {
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+    -webkit-user-drag: none; 
+    user-drag: none;
+    pointer-events: none;
+  }
+  
+  .bounding-box {
+    position: absolute;
+    border: 2px solid red;
+    background: rgba(255, 0, 0, 0.2);
+    cursor: move;
+  }
+  
+  .label {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    background: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-radius: 3px;
+  }

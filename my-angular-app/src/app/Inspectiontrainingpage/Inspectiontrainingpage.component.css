@@ -15,11 +15,12 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  height: 800px;
 }
 
 .Card-Row {
   margin-top: 50px;
-  height: 200px;
+  height: 400px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -36,6 +37,8 @@ table {
 form {
   width: 35%;
 }
+
+
 /*
 black: #2c2c2c
 green: #116530
