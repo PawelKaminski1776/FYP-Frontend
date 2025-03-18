@@ -12,25 +12,30 @@ body{
 
 
 .Card-Column {
-  margin-top: 50px;
-  height: 500px;
-  width: 500px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
 }
 
 .Card-Row {
-  height: 500px;
+  margin-top: 50px;
+  height: 200px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
 
-form {
-  border:#2eabe0 2px solid;
+.card {
+  height: 200px;
 }
 
+table {
+  width: 50%;
+}
+
+form {
+  width: 35%;
+}
 /*
 black: #2c2c2c
 green: #116530

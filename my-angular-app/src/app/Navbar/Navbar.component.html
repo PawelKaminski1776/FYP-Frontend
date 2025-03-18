@@ -24,7 +24,7 @@
               Create a New Inspection Pattern
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="/addinspection">Create a new Photo Dataset</a></li>
+              <li><a class="dropdown-item" href="/addinspection">Create a new Photo Dataset from Files</a></li>
               <li><a class="dropdown-item" href=""></a></li>
             </ul>
           </li>
@@ -33,10 +33,16 @@
               Current Inspection Patterns
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="/InspectionTraining">Occupancy Inspection Training</a></li>
-              <li><a class="dropdown-item" href="#">Maintenance Inspection Training</a></li>
+              <li *ngFor="let model of models">
+                <a class="dropdown-item" [routerLink]="['/InspectionTraining', model.inspectionName]">
+                  {{ model.inspectionName }} Training
+                </a>
+              </li>
+              <li *ngIf="models.length === 0">
+                <a class="dropdown-item disabled">No Inspections Available</a>
+              </li>
             </ul>
-          </li>
+          </li>                     
           <li *ngIf="isLoggedIn" class="nav-item">
             <a class="nav-link active" aria-current="page" href="#" (click)="LogOut()">Logout</a>
           </li>

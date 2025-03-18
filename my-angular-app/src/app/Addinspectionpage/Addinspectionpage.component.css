@@ -10,26 +10,20 @@ body{
 }
 
 .Page-Row {
-  margin-top: 40px;
-  height: 300px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  height: 500px;
+  min-width: none;
 }
 
-.Card-Column {
+.Page-Column {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   height: 500px;
-}
-
-.Card-Row {
-  margin-top: 50px;
-  height: 100px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  min-width: none;
+  margin-top: 100px;
 }
 
 table {

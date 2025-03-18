@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { NavbarComponent } from '../Navbar/Navbar.component';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-addinspectionpage',
@@ -14,6 +15,7 @@ import { NavbarComponent } from '../Navbar/Navbar.component';
 })
 export class AddInspectionpageComponent {
   addinspectionForm: FormGroup;
+  InspectionOutput = '';
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
     const email = sessionStorage.getItem('Username');
@@ -56,11 +58,11 @@ export class AddInspectionpageComponent {
     }
     
     console.log(formData);
-  
-    this.http.post<any>('https://localhost:5002/Api/Training/AddInspectionPattern', formData)
+    this.http.post<any>(`${environment.SendTrainingDataapiUrl}/Api/Training/AddInspectionPattern`, formData)
       .subscribe({
         next: (response) => {
           console.log('Upload Successful', response);
+          this.InspectionOutput = response.message;
         },
         error: (error) => {
           console.error('Error:', error);
