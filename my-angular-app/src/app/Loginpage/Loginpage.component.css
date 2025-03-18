@@ -15,7 +15,7 @@ body{
 
 .Card-Column {
   margin-top: 50px;
-  height: 350px;
+  height: 550px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

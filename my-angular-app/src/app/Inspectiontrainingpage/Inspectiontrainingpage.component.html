@@ -1,5 +1,50 @@
-<div class="Card-Row">
-    <div class="Card-Column">
+<app-navbar></app-navbar>
+<div class="Card-Column">
+  <div class="Card-Row">
+    <div class="card" style="width: 30rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{ model?.inspectionName }} Inspection Training
+            </h5>
+            <p class="card-text">Status: {{ model?.status }}</p>
+            <p class="card-text">Model URL in Python: {{ model?.modelURL }}</p>
+        </div>
     </div>
+    </div>
+<div class="Card-Row">
+    <form [formGroup]="webScrapingForm" (ngSubmit)="onSubmit()">
+      <div class="form-floating mb-3">
+        <label for="floatingInput">Number of Images</label>
+        <input type="number" class="form-control" id="floatingInput" formControlName="numOfImages" placeholder="Num Of Images" required>
+      </div>
+      <div class="col-md-3">
+        <label for="validationCustom04" class="form-label">Website</label>
+        <select class="form-select" id="validationCustom04" formControlName="Website" required>
+          <option selected disabled value="">Choose...</option>
+          <option value="Daft">Daft</option>
+        </select>
+      </div>
+      <div class="form-floating">
+        <label for="floatingCounty">County</label>
+        <input type="text" class="form-control" id="floatingCounty" formControlName="county" placeholder="County" required>
+      </div>
+      
+      <button type="submit" class="btn btn-primary mt-3" >Submit</button>
+    </form>
+  
+    <table class="table table-striped mt-4" *ngIf="inspectionData">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Image URL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let image of inspectionData.images; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ image.imgUrl }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
   
