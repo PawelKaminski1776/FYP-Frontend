@@ -8,10 +8,13 @@ import interact from 'interactjs';
   styleUrls: ['./bounding-box.component.css'],
   imports: [CommonModule]
 })
+
 export class BoundingBoxComponent implements OnInit, AfterViewInit {
   @Input() imageUrl!: string;
   @Input() annotations!: any[];
   @ViewChild('imageContainer') imageContainer!: ElementRef;
+  
+  private hoveredBoundingBox: HTMLElement | null = null;
 
   ngOnInit(): void {
     console.log(this.annotations);
@@ -19,13 +22,14 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.makeDraggable();
+    this.setupDeleteBoundingBox();
   }
 
   makeDraggable(): void {
     this.makeBoundingBoxesDraggable();
     this.makeBoundingBoxesResizable();
   }
-  
+
   private makeBoundingBoxesDraggable(): void {
     interact('.bounding-box')
       .draggable({
@@ -39,8 +43,18 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit {
           event.target.style.pointerEvents = 'auto'; 
         }
       });
+
+    // Track the hovered bounding box
+    document.querySelectorAll('.bounding-box').forEach(box => {
+      box.addEventListener('mouseenter', (event) => {
+        this.hoveredBoundingBox = event.currentTarget as HTMLElement;
+      });
+      box.addEventListener('mouseleave', () => {
+        this.hoveredBoundingBox = null;
+      });
+    });
   }
-  
+
   private handleDragStart(event: any): void {
     const target = event.target;
     const rect = target.getBoundingClientRect();
@@ -54,41 +68,39 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit {
     target.setAttribute('data-x', offsetX.toString());
     target.setAttribute('data-y', offsetY.toString());
   }
-  
+
   private handleDragMove(event: any): void {
     const target = event.target;
     let x = parseFloat(target.getAttribute('data-x')) || 0;
     let y = parseFloat(target.getAttribute('data-y')) || 0;
-  
+
     const container = target.closest('.image-container');
     const containerRect = container.getBoundingClientRect();
     const targetRect = target.getBoundingClientRect();
-  
+
     x += event.dx;
     y += event.dy;
-  
+
     if (x < 0) {
       x = 0;
     } else if (x + targetRect.width > containerRect.width) {
       x = containerRect.width - targetRect.width;
     }
-  
+
     if (y < 0) {
       y = 0;
     } else if (y + targetRect.height > containerRect.height) {
       y = containerRect.height - targetRect.height;
     }
-  
+
     target.style.left = `${x}px`;
     target.style.top = `${y}px`;
-  
+
     target.setAttribute('data-x', x.toString());
     target.setAttribute('data-y', y.toString());
   }
-  
-  
-  private handleDragEnd(event: any): void {
-  }
+
+  private handleDragEnd(event: any): void {}
 
   private updateAnnotation(target: any, x: number, y: number): void {
     const annotationId = target.getAttribute('data-id');  
@@ -102,7 +114,7 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit {
       }
     }
   }
-  
+
   private makeBoundingBoxesResizable(): void {
     interact('.bounding-box')
       .resizable({
@@ -112,15 +124,37 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit {
         }
       });
   }
-  
+
   private handleResizeMove(event: any): void {
     const target = event.target;
     const { width, height } = event.rect;
-  
+
     target.style.width = `${width}px`;
     target.style.height = `${height}px`;
-  
+
     target.setAttribute('data-x', target.getBoundingClientRect().left.toString());
     target.setAttribute('data-y', target.getBoundingClientRect().top.toString());
   }
+
+  private setupDeleteBoundingBox(): void {
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Delete' && this.hoveredBoundingBox) {
+        this.deleteBoundingBox(this.hoveredBoundingBox);
+      }
+    });
+  }
+
+  private deleteBoundingBox(target: HTMLElement): void {
+    const annotationId = target.getAttribute('data-id');
+  
+    // Ensure annotations are updated with explicit typing
+    this.annotations = this.annotations.map(category => ({
+      ...category,
+      data: category.data.filter((annotation: { id: string }) => annotation.id !== annotationId)
+    }));
+  
+    // Remove from the DOM
+    target.remove();
+  }
 }
+
