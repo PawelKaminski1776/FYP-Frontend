@@ -25,7 +25,7 @@ export class InspectiontrainingpageComponent implements OnInit {
 
   annotations = [
     {
-      category: "Lights",
+      category: "Lawn",
       data: [
         {
           "score": 0.784191906452179,
@@ -35,7 +35,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             714.7138671875,
             480.0000305175781
           ],
-          "class_name": "Lights"
+          "class_name": "Lawn"
         },
         {
           "score": 0.6209020018577576,
@@ -45,7 +45,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             720.0,
             332.5782470703125
           ],
-          "class_name": "Lights"
+          "class_name": "Lawn"
         },
         {
           "score": 0.5423328876495361,
@@ -55,7 +55,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             720.0,
             342.1352844238281
           ],
-          "class_name": "Lights"
+          "class_name": "Lawn"
         },
         {
           "score": 0.8228058815002441,
@@ -65,7 +65,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             720.0,
             339.36212158203125
           ],
-          "class_name": "Lights"
+          "class_name": "Lawn"
         },
         {
           "score": 0.7476001977920532,
@@ -75,7 +75,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             150.78363037109375,
             285.98223876953125
           ],
-          "class_name": "Lights"
+          "class_name": "Lawn"
         },
         {
           "score": 0.6294553279876709,
@@ -85,7 +85,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             313.1271667480469,
             477.0367736816406
           ],
-          "class_name": "Lights"
+          "class_name": "Lawn"
         },
         {
           "score": 0.5160617828369141,
@@ -95,12 +95,12 @@ export class InspectiontrainingpageComponent implements OnInit {
             701.7984619140625,
             476.6263122558594
           ],
-          "class_name": "Lights"
+          "class_name": "Lawn"
         }
       ]
     },
     {
-      category: "Lawn",
+      category: "Lights",
       data: [
         {
           "score": 0.6245208978652954,
@@ -110,7 +110,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             352.3161315917969,
             193.27923583984375
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         },
         {
           "score": 0.5121493339538574,
@@ -120,7 +120,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             200.9495086669922,
             217.42449951171875
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         },
         {
           "score": 0.7396559119224548,
@@ -130,7 +130,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             286.1262512207031,
             207.048828125
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         },
         {
           "score": 0.7095217704772949,
@@ -140,7 +140,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             346.1073913574219,
             284.05224609375
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         },
         {
           "score": 0.6540665626525879,
@@ -150,7 +150,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             351.2783203125,
             199.74562072753906
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         },
         {
           "score": 0.5854578018188477,
@@ -160,7 +160,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             276.6549377441406,
             294.3584289550781
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         },
         {
           "score": 0.541395902633667,
@@ -170,7 +170,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             200.64291381835938,
             222.47409057617188
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         },
         {
           "score": 0.6914768218994141,
@@ -180,7 +180,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             286.93121337890625,
             202.0889892578125
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         },
         {
           "score": 0.6710044145584106,
@@ -190,7 +190,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             354.98748779296875,
             279.1975402832031
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         },
         {
           "score": 0.6525390148162842,
@@ -200,7 +200,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             201.74159240722656,
             220.1595458984375
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         },
         {
           "score": 0.6312309503555298,
@@ -210,7 +210,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             354.2351989746094,
             195.87318420410156
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         },
         {
           "score": 0.5537038445472717,
@@ -220,7 +220,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             278.7721252441406,
             287.1168518066406
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         },
         {
           "score": 0.5365632176399231,
@@ -230,7 +230,7 @@ export class InspectiontrainingpageComponent implements OnInit {
             357.3502502441406,
             280.6205749511719
           ],
-          "class_name": "Lawn"
+          "class_name": "Lights"
         }
       ]
     }
