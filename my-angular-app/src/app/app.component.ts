@@ -1,6 +1,7 @@
 import { NgModule, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LoginpageComponent } from './Loginpage/Loginpage.component';
+import { InspectionscrapingpageComponent } from './Inspectionscrapingpage/Inspectionscrapingpage.component';
 import { InspectiontrainingpageComponent } from './Inspectiontrainingpage/Inspectiontrainingpage.component';
 import { HomepageComponent } from './Homepage/Homepage.component';
 import { CommonModule } from '@angular/common';
@@ -13,7 +14,7 @@ import { FooterComponent } from './Footer/Footer.component';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [AppRoutingModule, FooterComponent,CommonModule, NavbarComponent, SignuppageComponent, FormsModule, LoginpageComponent, InspectiontrainingpageComponent, HomepageComponent]
+  imports: [AppRoutingModule, FooterComponent,CommonModule, NavbarComponent, SignuppageComponent, FormsModule, LoginpageComponent, InspectiontrainingpageComponent, InspectionscrapingpageComponent, HomepageComponent]
 })
 
 export class AppComponent {

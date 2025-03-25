@@ -6,8 +6,9 @@ import { LoadingComponent } from './loading/loading.component';
 import { FormsModule } from '@angular/forms'; 
 import { AppRoutingModule } from './app.routes';
 import { LoginpageComponent } from './Loginpage/Loginpage.component';
-import { InspectiontrainingpageComponent } from './Inspectiontrainingpage/Inspectiontrainingpage.component';
+import { InspectiontrainingpageComponent } from './Inspectionscrapingpage/Inspectionscrapingpage.component';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
   imports: [
     BrowserModule,
     FormsModule, 
-    AppRoutingModule
+    AppRoutingModule,
+    CommonModule
   ],
   providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent] 
