@@ -1,6 +1,21 @@
-import { Component, Input, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ElementRef, ViewChild, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 import interact from 'interactjs';
+
+// Define the annotation structure
+interface Annotation {
+  bounding_box: number[];
+  class_name: string;
+  score: number;
+  id?: string;
+}
+
+// Define the annotations structure
+interface Annotations {
+  [category: string]: Annotation[];
+}
 
 @Component({
   selector: 'app-bounding-box',
@@ -8,16 +23,40 @@ import interact from 'interactjs';
   styleUrls: ['./bounding-box.component.css'],
   imports: [CommonModule]
 })
-
-export class BoundingBoxComponent implements OnInit, AfterViewInit {
+export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() imageUrl!: string;
-  @Input() annotations!: any[];
+  @Input() annotation!: Annotations; 
+  @Output() annotationsUpdated = new EventEmitter<Annotations>(); // Emit updated annotations
+  @Output() imageUrlUpdated = new EventEmitter<string>(); // Emit updated image URL
+  annotations!: Annotations;
   @ViewChild('imageContainer') imageContainer!: ElementRef;
+  objectKeys = Object.keys; // Add this line
   
   private hoveredBoundingBox: HTMLElement | null = null;
 
+  constructor(private http: HttpClient) {}
+
   ngOnInit(): void {
-    console.log(this.annotations);
+    this.http.get(`${environment.GetImagesAndAnnotationsApiUrl}/Api/GetImagesAndAnnotations/${this.imageUrl}`, {
+      responseType: 'blob' 
+    }).subscribe({
+      next: (blob) => {
+        const objectURL = URL.createObjectURL(blob);
+        this.imageUrl = objectURL;
+        this.annotations = this.annotation;
+      },
+      error: (error) => {
+        console.error('Error fetching image:', error);
+      }
+    });
+
+    console.log(this.annotation);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['annotation']?.currentValue) {
+      this.annotations = changes['annotation'].currentValue;
+    }
   }
 
   ngAfterViewInit(): void {
@@ -34,17 +73,12 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit {
     interact('.bounding-box')
       .draggable({
         listeners: {
-          start: this.handleDragStart,
-          move: this.handleDragMove,
-          end: this.handleDragEnd
+          move: this.handleDragMove.bind(this),
+          end: this.emitUpdatedAnnotations.bind(this)
         },
-        inertia: true, 
-        onstart(event) {
-          event.target.style.pointerEvents = 'auto'; 
-        }
+        inertia: true
       });
 
-    // Track the hovered bounding box
     document.querySelectorAll('.bounding-box').forEach(box => {
       box.addEventListener('mouseenter', (event) => {
         this.hoveredBoundingBox = event.currentTarget as HTMLElement;
@@ -55,64 +89,21 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private handleDragStart(event: any): void {
-    const target = event.target;
-    const rect = target.getBoundingClientRect();
-    
-    const container = target.closest('.image-container');
-    const containerRect = container.getBoundingClientRect();
-  
-    const offsetX = rect.left - containerRect.left;
-    const offsetY = rect.top - containerRect.top;
-  
-    target.setAttribute('data-x', offsetX.toString());
-    target.setAttribute('data-y', offsetY.toString());
-  }
-
   private handleDragMove(event: any): void {
     const target = event.target;
     let x = parseFloat(target.getAttribute('data-x')) || 0;
     let y = parseFloat(target.getAttribute('data-y')) || 0;
 
-    const container = target.closest('.image-container');
-    const containerRect = container.getBoundingClientRect();
-    const targetRect = target.getBoundingClientRect();
-
     x += event.dx;
     y += event.dy;
-
-    if (x < 0) {
-      x = 0;
-    } else if (x + targetRect.width > containerRect.width) {
-      x = containerRect.width - targetRect.width;
-    }
-
-    if (y < 0) {
-      y = 0;
-    } else if (y + targetRect.height > containerRect.height) {
-      y = containerRect.height - targetRect.height;
-    }
 
     target.style.left = `${x}px`;
     target.style.top = `${y}px`;
 
     target.setAttribute('data-x', x.toString());
     target.setAttribute('data-y', y.toString());
-  }
 
-  private handleDragEnd(event: any): void {}
-
-  private updateAnnotation(target: any, x: number, y: number): void {
-    const annotationId = target.getAttribute('data-id');  
-    for (let category of this.annotations) {
-      for (let annotation of category.data) {
-        if (annotation.id === annotationId) {
-          annotation.bounding_box[0] = x;
-          annotation.bounding_box[1] = y;
-          break;
-        }
-      }
-    }
+    this.updateAnnotation(target, x, y);
   }
 
   private makeBoundingBoxesResizable(): void {
@@ -120,7 +111,8 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit {
       .resizable({
         edges: { left: true, right: true, top: true, bottom: true },
         listeners: {
-          move: this.handleResizeMove
+          move: this.handleResizeMove.bind(this),
+          end: this.emitUpdatedAnnotations.bind(this)
         }
       });
   }
@@ -132,8 +124,34 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit {
     target.style.width = `${width}px`;
     target.style.height = `${height}px`;
 
-    target.setAttribute('data-x', target.getBoundingClientRect().left.toString());
-    target.setAttribute('data-y', target.getBoundingClientRect().top.toString());
+    this.updateAnnotation(target, undefined, undefined, width, height);
+  }
+
+  private updateAnnotation(target: HTMLElement, x?: number, y?: number, width?: number, height?: number): void {
+    const annotationId = target.getAttribute('data-id');
+
+    Object.keys(this.annotations).forEach(category => {
+      this.annotations[category] = this.annotations[category].map(annotation => {
+        if (annotation.id === annotationId) {
+          const [x1, y1, x2, y2] = annotation.bounding_box;
+
+          return {
+            ...annotation,
+            bounding_box: [
+              x !== undefined ? x : x1,
+              y !== undefined ? y : y1,
+              x !== undefined ? x + (width || x2 - x1) : x2,
+              y !== undefined ? y + (height || y2 - y1) : y2
+            ]
+          };
+        }
+        return annotation;
+      });
+    });
+  }
+
+  private emitUpdatedAnnotations(): void {
+    this.annotationsUpdated.emit(this.annotations);
   }
 
   private setupDeleteBoundingBox(): void {
@@ -147,14 +165,13 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit {
   private deleteBoundingBox(target: HTMLElement): void {
     const annotationId = target.getAttribute('data-id');
   
-    // Ensure annotations are updated with explicit typing
-    this.annotations = this.annotations.map(category => ({
-      ...category,
-      data: category.data.filter((annotation: { id: string }) => annotation.id !== annotationId)
-    }));
+    this.annotations = Object.keys(this.annotations).reduce((result, category) => {
+      result[category] = this.annotations[category].filter(annotation => annotation.id !== annotationId);
+      return result;
+    }, {} as Annotations);
   
-    // Remove from the DOM
     target.remove();
+    interact('.bounding-box').unset();
+    this.emitUpdatedAnnotations();
   }
 }
-

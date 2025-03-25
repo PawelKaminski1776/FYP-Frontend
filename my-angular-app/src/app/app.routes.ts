@@ -24,7 +24,11 @@ export const routes: Routes = [
     loadComponent: () => import('./Addinspectionpage/Addinspectionpage.component').then(m => m.AddInspectionpageComponent)
   },
   {
-    path: 'InspectionTraining/:inspectionName',
+    path: 'Inspectionscraping/:inspectionName',
+    loadComponent: () => import('./Inspectionscrapingpage/Inspectionscrapingpage.component').then(m => m.InspectionscrapingpageComponent)
+  },
+  {
+    path: 'Inspectiontraining/:inspectionName',
     loadComponent: () => import('./Inspectiontrainingpage/Inspectiontrainingpage.component').then(m => m.InspectiontrainingpageComponent)
   }
 ];
