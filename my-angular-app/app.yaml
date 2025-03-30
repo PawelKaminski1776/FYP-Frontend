@@ -1,6 +1,10 @@
-runtime: nodejs22
+runtime: nodejs
 env: flex
 service: angular-app
+
+runtime_config:
+  runtime_version: "22"
+  operating_system: "ubuntu22"
 
 instance_class: F2
 
