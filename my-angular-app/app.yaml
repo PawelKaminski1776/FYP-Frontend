@@ -16,8 +16,12 @@ automatic_scaling:
 
 env_variables:
   NODE_ENV: "production"
-
+  
 handlers:
+- url: /favicon.ico
+  static_files: dist/my-angular-app/favicon.ico
+  upload: dist/my-angular-app/favicon.ico
+  
 - url: /
   static_files: dist/my-angular-app/index.html
   upload: dist/my-angular-app/index.html
