@@ -1,10 +1,6 @@
-runtime: custom
+runtime: nodejs22
 env: flex
-service: angular-app-cloud
-
-runtime_config:
-  runtime_version: "nodejs22"
-  operating_system: "ubuntu22"
+service: angular-app
 
 instance_class: F2
 
@@ -18,8 +14,13 @@ env_variables:
   NODE_ENV: "production"
 
 handlers:
-- url: /(.*)
-  static_files: dist/angular-app/index.html
-  upload: dist/angular-app/index.html
 - url: /
-  static_dir: dist/angular-app
+  static_files: dist/my-angular-app/index.html
+  upload: dist/my-angular-app/index.html
+
+- url: /(.*)
+  static_files: dist/my-angular-app/\1
+  upload: dist/my-angular-app/(.*)
+
+- url: /assets
+  static_dir: dist/my-angular-app/assets
