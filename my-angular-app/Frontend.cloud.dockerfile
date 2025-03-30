@@ -7,7 +7,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . . 
-RUN npm run build -- --configuration production
+RUN npm run build --configuration production
 
 # Stage 2: Serve with Nginx
 FROM nginx:latest
@@ -19,7 +19,7 @@ COPY --from=build /app/dist/my-angular-app /usr/share/nginx/html
 COPY default.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
-EXPOSE 80
+EXPOSE 8080
 
 # Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
