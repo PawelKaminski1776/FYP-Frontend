@@ -18,17 +18,21 @@ env_variables:
   NODE_ENV: "production"
   
 handlers:
+# Serve the favicon.ico file
 - url: /favicon.ico
   static_files: dist/my-angular-app/favicon.ico
   upload: dist/my-angular-app/favicon.ico
   
+# Serve the index.html file (default route)
 - url: /
   static_files: dist/my-angular-app/index.html
   upload: dist/my-angular-app/index.html
 
+# Catch-all route for other static files (JS, CSS, images, etc.)
 - url: /(.*)
   static_files: dist/my-angular-app/\1
   upload: dist/my-angular-app/(.*)
 
+# Serve other static assets (e.g., images, fonts, CSS, etc.) from the assets folder
 - url: /assets
   static_dir: dist/my-angular-app/assets
