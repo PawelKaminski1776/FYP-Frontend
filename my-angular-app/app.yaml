@@ -1,0 +1,25 @@
+runtime: custom
+env: flex
+service: angular-app
+
+runtime_config:
+  runtime_version: "nodejs16"
+  operating_system: "ubuntu22"
+
+instance_class: F2
+
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 5
+  cpu_utilization:
+    target_utilization: 0.65
+
+env_variables:
+  NODE_ENV: "production"
+  PORT: "8080"
+
+handlers:
+- url: /.* 
+  static_files: public/index.html
+  upload: public/*
+  secure: always
