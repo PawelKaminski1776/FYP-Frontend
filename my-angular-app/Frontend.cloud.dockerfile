@@ -7,7 +7,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . . 
-RUN npm run build --configuration production
+RUN npm run build -- --configuration production
 
 # Stage 2: Serve with Nginx
 FROM nginx:latest
