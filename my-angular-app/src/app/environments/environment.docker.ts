@@ -4,6 +4,7 @@ export const environment = {
     CheckLoginapiUrl: 'http://localhost:5003',
     SendTrainingDataapiUrl: 'http://localhost:5005',
     ReceiveModelDataApiUrl: 'http://localhost:5009',
-    GetImagesAndAnnotationsApiUrl: 'https://localhost:5012',
+    GetImagesAndAnnotationsApiUrl: 'http://localhost:5011',
+    SendImagesAndAnnotationsApiUrl: 'https://localhost:5014',
     featureFlag: true
   };

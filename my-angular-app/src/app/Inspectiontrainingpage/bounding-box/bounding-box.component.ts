@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, ElementRef, ViewChild, 
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { SessionStorageService } from '../../storage.service';
 import interact from 'interactjs';
 
 // Define the annotation structure
@@ -17,6 +18,13 @@ interface Annotations {
   [category: string]: Annotation[];
 }
 
+interface Data {
+  image: string;
+  annotations: Annotations;
+  id?: string;
+}
+
+
 @Component({
   selector: 'app-bounding-box',
   templateUrl: './bounding-box.component.html',
@@ -24,34 +32,36 @@ interface Annotations {
   imports: [CommonModule]
 })
 export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
-  @Input() imageUrl!: string;
-  @Input() annotation!: Annotations; 
-  @Output() annotationsUpdated = new EventEmitter<Annotations>(); // Emit updated annotations
-  @Output() imageUrlUpdated = new EventEmitter<string>(); // Emit updated image URL
+  @Input() data!: Data;
+  @Output() annotationsUpdated = new EventEmitter<Annotations>();
+  @Output() imageUrlUpdated = new EventEmitter<string>();
   annotations!: Annotations;
+  inspectionData: any = null;
   @ViewChild('imageContainer') imageContainer!: ElementRef;
-  objectKeys = Object.keys; // Add this line
-  
+  objectKeys = Object.keys;
+  imageUrl!: string;
+
   private hoveredBoundingBox: HTMLElement | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private sessionStorageService: SessionStorageService) {}
 
   ngOnInit(): void {
-    this.http.get(`${environment.GetImagesAndAnnotationsApiUrl}/Api/GetImagesAndAnnotations/${this.imageUrl}`, {
+    this.http.get(`${environment.GetImagesAndAnnotationsApiUrl}/Api/GetImagesAndAnnotations/${this.data.image}`, {
       responseType: 'blob' 
     }).subscribe({
       next: (blob) => {
+
         const objectURL = URL.createObjectURL(blob);
         this.imageUrl = objectURL;
-        this.annotations = this.annotation;
+        this.annotations = this.data.annotations;
+  
       },
       error: (error) => {
         console.error('Error fetching image:', error);
       }
     });
-
-    console.log(this.annotation);
   }
+  
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['annotation']?.currentValue) {
@@ -129,29 +139,48 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
 
   private updateAnnotation(target: HTMLElement, x?: number, y?: number, width?: number, height?: number): void {
     const annotationId = target.getAttribute('data-id');
+    if (!annotationId) {
+        console.warn("Annotation ID is missing!");
+        return;
+    }
 
-    Object.keys(this.annotations).forEach(category => {
-      this.annotations[category] = this.annotations[category].map(annotation => {
-        if (annotation.id === annotationId) {
-          const [x1, y1, x2, y2] = annotation.bounding_box;
+    // Retrieve the current inspection data
+    this.inspectionData = this.sessionStorageService.getItem('inspectionData');
 
-          return {
-            ...annotation,
-            bounding_box: [
-              x !== undefined ? x : x1,
-              y !== undefined ? y : y1,
-              x !== undefined ? x + (width || x2 - x1) : x2,
-              y !== undefined ? y + (height || y2 - y1) : y2
-            ]
-          };
-        }
-        return annotation;
+    if (this.inspectionData) {
+      this.inspectionData.forEach((item: any) => {
+          if (!item.annotations) return;
+  
+          Object.keys(item.annotations).forEach(category => {
+              item.annotations[category] = item.annotations[category].map((annotation: any) => {
+                  if (annotation.id === annotationId) {
+                      //console.log(`Updating annotation ID: ${annotationId} in category: ${category}`);
+  
+                      annotation.bounding_box[0] = x ?? annotation.bounding_box[0];
+                      annotation.bounding_box[1] = y ?? annotation.bounding_box[1];
+                      annotation.bounding_box[2] = width ?? annotation.bounding_box[2];
+                      annotation.bounding_box[3] = height ?? annotation.bounding_box[3];
+                  }
+                  return annotation;
+              });
+          });
       });
-    });
+  
+      this.sessionStorageService.setItem('inspectionData', this.inspectionData);
+      //console.log("Updated inspection data:", this.inspectionData);
   }
+  
+        
 
-  private emitUpdatedAnnotations(): void {
-    this.annotationsUpdated.emit(this.annotations);
+    
+}
+
+
+  private emitUpdatedAnnotations(updatedAnnotations: any): void {
+    sessionStorage.setItem('annotations', JSON.stringify(updatedAnnotations.annotations));
+    sessionStorage.setItem('imageUrl', updatedAnnotations.image);
+
+    this.annotationsUpdated.emit(updatedAnnotations.annotations);
   }
 
   private setupDeleteBoundingBox(): void {
@@ -164,14 +193,18 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
 
   private deleteBoundingBox(target: HTMLElement): void {
     const annotationId = target.getAttribute('data-id');
-  
+
+    if (!annotationId) return;
+
     this.annotations = Object.keys(this.annotations).reduce((result, category) => {
       result[category] = this.annotations[category].filter(annotation => annotation.id !== annotationId);
       return result;
     }, {} as Annotations);
-  
+
     target.remove();
+
     interact('.bounding-box').unset();
-    this.emitUpdatedAnnotations();
+
+    this.emitUpdatedAnnotations({ annotations: this.annotations, image: this.data.image });
   }
 }
