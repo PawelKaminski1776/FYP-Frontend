@@ -1,5 +1,5 @@
 export const environment = {
-    production: false,
+    production: true,
     UserDetailsapiUrl: 'https://userdetails-dot-project-fyp-u2f3hue32ui32.nw.r.appspot.com',
     CheckLoginapiUrl: 'https://checklogin-dot-project-fyp-u2f3hue32ui32.nw.r.appspot.com',
     SendTrainingDataapiUrl: 'https://sendtrainingdata-dot-project-fyp-u2f3hue32ui32.nw.r.appspot.com',
