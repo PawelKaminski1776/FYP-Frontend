@@ -67,6 +67,7 @@ export class InspectionscrapingpageComponent implements OnInit {
 
   findModel(): void {
     this.model = this.models.find(m => m.inspectionName.toLowerCase() === this.inspectionName.toLowerCase());
+    this.sessionStorageService.setItem('ModelURL', this.model.modelURL);
     if (this.model) {
       console.log('Model found:', this.model);
     } else {

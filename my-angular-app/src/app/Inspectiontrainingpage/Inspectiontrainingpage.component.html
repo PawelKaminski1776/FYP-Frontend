@@ -5,9 +5,8 @@
       <!-- Display only the paginated data -->
       <div *ngFor="let data of paginatedData">
         <app-bounding-box 
-          [imageUrl]="data.image" 
-          [annotation]="data.annotations"
-          (annotationsUpdated)="updateAnnotations($event, data)">
+          [data]="data" 
+          (annotationsUpdated)="updateAnnotations()">
         </app-bounding-box>
       </div>
     </div>
@@ -33,6 +32,7 @@
   <!-- Bootstrap Submit -->
   <div class="Pagination-Row">
     <!-- <form (ngSubmit)="onSubmit($event)"> -->
+    <p *ngIf="apiError" style="color: red;">{{ apiError }}</p>
     <button type="submit" class="btn btn-primary" (click)="onSubmit($event)">Submit</button>
     <!-- </form> -->
   </div>
