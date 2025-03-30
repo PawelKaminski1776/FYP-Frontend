@@ -1,4 +1,4 @@
-runtime: nodejs~22
+runtime: nodejs22.13.1
 env: flex
 service: angular-app
 
