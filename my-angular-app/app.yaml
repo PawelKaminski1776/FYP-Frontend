@@ -1,10 +1,7 @@
-runtime: nodejs
-service: angular-app-cloud
+runtime: custom
 env: flex
 
-runtime_config:
-  runtime_version: "22"
-  operating_system: "ubuntu22"
+service: angular-app-cloud
 
 manual_scaling:
   instances: 1
@@ -14,11 +11,6 @@ resources:
   memory_gb: 0.5
   disk_size_gb: 10
 
-handlers:
-  - url: /(.*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|otf|json|txt|html))
-    static_files: dist/my-angular-app/\1
-    upload: dist/my-angular-app/.*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|otf|json|txt|html)
-
-  - url: /.*
-    static_files: dist/my-angular-app/index.html
-    upload: dist/my-angular-app/index.html
+network:
+  forwarded_ports:
+    - 8080
