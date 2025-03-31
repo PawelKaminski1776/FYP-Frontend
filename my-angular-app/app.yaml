@@ -1,4 +1,5 @@
 runtime: python
+service: angular-app-cloud
 
 runtime_config:
   runtime_version: "27"
