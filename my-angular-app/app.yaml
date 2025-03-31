@@ -1,5 +1,11 @@
-runtime: python27
+runtime: python
+
+runtime_config:
+  runtime_version: "27"
+  operating_system: "ubuntu22"
+  
 api_version: 1
+
 threadsafe: true
 handlers:
   - url: /
