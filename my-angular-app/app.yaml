@@ -1,26 +1,24 @@
-runtime: python
+runtime: nodejs
 service: angular-app-cloud
+env: flex
 
 runtime_config:
-  runtime_version: "27"
+  runtime_version: "22"
   operating_system: "ubuntu22"
-  
-api_version: 1
 
-threadsafe: true
+manual_scaling:
+  instances: 1
+
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+
 handlers:
-  - url: /
+  - url: /(.*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|otf|json|txt|html))
+    static_files: dist/my-angular-app/\1
+    upload: dist/my-angular-app/.*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|otf|json|txt|html)
+
+  - url: /.*
     static_files: dist/my-angular-app/index.html
     upload: dist/my-angular-app/index.html
-  - url: /
-    static_dir: dist/my-angular-app
-skip_files:
-  - e2e/
-  - node_modules/
-  - src/
-  - coverage
-  - ^(.*/)?\..*$
-  - ^(.*/)?.*\.json$
-  - ^(.*/)?.*\.md$
-  - ^(.*/)?.*\.yaml$
-  - ^LICENSE
