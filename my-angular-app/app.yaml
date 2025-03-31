@@ -1,38 +1,22 @@
-runtime: nodejs
-env: flex
-service: angular-app
+runtime: python39  # You can use other runtimes like `nodejs` if you want to but for static content, python works well
+env: standard  # Use the standard environment for static files
 
-runtime_config:
-  runtime_version: "22"
-  operating_system: "ubuntu22"
+instance_class: F2  # You can adjust this based on the instance class you'd like to use
 
-instance_class: F2
+handlers:
+  # Serve the index.html file (default route)
+  - url: /
+    static_files: dist/my-angular-app/index.html
+    upload: dist/my-angular-app/index.html
 
-automatic_scaling:
-  min_num_instances: 1
-  max_num_instances: 5
-  cpu_utilization:
-    target_utilization: 0.65
+  # Serve static assets (JS, CSS, images, etc.)
+  - url: /assets
+    static_dir: dist/my-angular-app/assets
+
+  # Serve other static files (JS, CSS, etc.)
+  - url: /(.*)
+    static_files: dist/my-angular-app/\1
+    upload: dist/my-angular-app/(.*)
 
 env_variables:
   NODE_ENV: "production"
-  
-handlers:
-# Serve the favicon.ico file
-- url: /favicon.ico
-  static_files: dist/my-angular-app/favicon.ico
-  upload: dist/my-angular-app/favicon.ico
-  
-# Serve the index.html file (default route)
-- url: /
-  static_files: dist/my-angular-app/index.html
-  upload: dist/my-angular-app/index.html
-
-# Catch-all route for other static files (JS, CSS, images, etc.)
-- url: /(.*)
-  static_files: dist/my-angular-app/\1
-  upload: dist/my-angular-app/(.*)
-
-# Serve other static assets (e.g., images, fonts, CSS, etc.) from the assets folder
-- url: /assets
-  static_dir: dist/my-angular-app/assets
