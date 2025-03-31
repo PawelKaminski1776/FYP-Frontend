@@ -3,10 +3,10 @@ api_version: 1
 threadsafe: true
 handlers:
   - url: /
-    static_files: dist/[project-name]/index.html
-    upload: dist/[project-name]/index.html
+    static_files: dist/my-angular-app/index.html
+    upload: dist/my-angular-app/index.html
   - url: /
-    static_dir: dist/[project-name]
+    static_dir: dist/my-angular-app
 skip_files:
   - e2e/
   - node_modules/
