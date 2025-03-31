@@ -21,6 +21,5 @@ COPY default.conf /etc/nginx/conf.d/default.conf
 # Expose the correct port
 EXPOSE 8080
 
-# Start Nginx with correct port
-CMD ["sh", "-c", "envsubst '$$PORT' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
-
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]
