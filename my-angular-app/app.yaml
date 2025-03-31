@@ -1,22 +1,21 @@
-runtime: python39  # You can use other runtimes like `nodejs` if you want to but for static content, python works well
-env: standard  # Use the standard environment for static files
+runtime: nodejs
+service: angular-app-cloud
+env: flex
 
-instance_class: F2  # You can adjust this based on the instance class you'd like to use
+runtime_config:
+  runtime_version: "22"
+  operating_system: "ubuntu22"
 
-handlers:
-  # Serve the index.html file (default route)
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+  
+ handlers:
+  - url: /.*
+    static_files: dist/your-angular-app/index.html
+    upload: dist/your-angular-app/index.html
   - url: /
-    static_files: dist/my-angular-app/index.html
-    upload: dist/my-angular-app/index.html
-
-  # Serve static assets (JS, CSS, images, etc.)
-  - url: /assets
-    static_dir: dist/my-angular-app/assets
-
-  # Serve other static files (JS, CSS, etc.)
-  - url: /(.*)
-    static_files: dist/my-angular-app/\1
-    upload: dist/my-angular-app/(.*)
-
-env_variables:
-  NODE_ENV: "production"
+    static_dir: dist/your-angular-app
