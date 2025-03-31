@@ -1,14 +1,19 @@
-runtime: nodejs
-service: angular-app-cloud
-env: flex
-
-manual_scaling:
-  instances: 1
-
-resources:
-  cpu: 1
-  memory_gb: 0.5
-  disk_size_gb: 10
-
-env_variables:
-  PORT: "8080"
+runtime: python27
+api_version: 1
+threadsafe: true
+handlers:
+  - url: /
+    static_files: dist/[project-name]/index.html
+    upload: dist/[project-name]/index.html
+  - url: /
+    static_dir: dist/[project-name]
+skip_files:
+  - e2e/
+  - node_modules/
+  - src/
+  - coverage
+  - ^(.*/)?\..*$
+  - ^(.*/)?.*\.json$
+  - ^(.*/)?.*\.md$
+  - ^(.*/)?.*\.yaml$
+  - ^LICENSE
