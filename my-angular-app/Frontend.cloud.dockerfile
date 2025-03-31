@@ -18,7 +18,7 @@ COPY --from=build /app/dist/my-angular-app /usr/share/nginx/html
 # Copy custom Nginx configuration file
 COPY default.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 80
+# Expose the correct port
 EXPOSE 8080
 
 # Start Nginx server
