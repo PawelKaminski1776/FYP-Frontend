@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+
+    tools {
+        nodejs "NodeJS 22"  
+    }
+
+    environment {
+        CI = "true"
+        DOCKER_IMAGE = "angular-app"
+        CONTAINER_NAME = "angular-container"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm: [
+                    $class: 'GitSCM', 
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/PawelKaminski1776/FYP-Frontend.git']]
+                ]
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('my-angular-app') {
+                    sh "docker build -f Frontend.dockerfile -t ${DOCKER_IMAGE} ."
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                sh """
+                    docker stop ${CONTAINER_NAME} || true
+                    docker rm ${CONTAINER_NAME} || true
+                    docker run -d -p 80:80 --name ${CONTAINER_NAME} ${DOCKER_IMAGE}
+                """
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir('my-angular-app') {
+                    sh 'ng test --watch=false --browsers=ChromeHeadless'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying the Angular application..."
+            }
+        }
+    }
+}
