@@ -1,10 +1,10 @@
 export const environment = {
-    production: true,
-    UserDetailsapiUrl: 'https://userdetails-dot-project-fyp-u2f3hue32ui32.nw.r.appspot.com',
-    CheckLoginapiUrl: 'https://checklogin-dot-project-fyp-u2f3hue32ui32.nw.r.appspot.com',
-    SendTrainingDataapiUrl: 'https://sendtrainingdata-dot-project-fyp-u2f3hue32ui32.nw.r.appspot.com',
-    ReceiveModelDataApiUrl: 'https://receivemodeldata-dot-project-fyp-u2f3hue32ui32.nw.r.appspot.com',
-    GetImagesAndAnnotationsApiUrl: 'https://getimagesandannotations-dot-project-fyp-u2f3hue32ui32.nw.r.appspot.com',
-    SendImagesAndAnnotationsApiUrl: 'https://sendimagesandannotations-dot-project-fyp-u2f3hue32ui32.nw.r.appspot.com',
-    featureFlag: true
-  };
+  production: true,
+  UserDetailsapiUrl: 'http://10.154.0.28:5001',
+  CheckLoginapiUrl: 'http://10.154.0.28:5003',
+  SendTrainingDataapiUrl: 'http://10.154.0.28:5005',
+  ReceiveModelDataApiUrl: 'http://10.154.0.28:5009',
+  GetImagesAndAnnotationsApiUrl: 'http://10.154.0.28:5011',
+  SendImagesAndAnnotationsApiUrl: 'https://10.154.0.28:5014',
+  featureFlag: true
+};
