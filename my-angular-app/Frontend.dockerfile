@@ -13,7 +13,7 @@ RUN npm run build -- --configuration production
 FROM nginx:latest
 
 # Copy the built Angular app to the Nginx HTML folder
-COPY --from=build /app/dist/my-angular-app /usr/share/nginx/html/browser
+COPY --from=build /app/dist/my-angular-app /usr/share/nginx/html
 
 # Copy custom Nginx configuration file
 COPY default.conf /etc/nginx/conf.d/default.conf
