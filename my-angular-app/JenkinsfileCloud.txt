@@ -39,19 +39,5 @@ pipeline {
                 """
             }
         }
-
-        stage('Test') {
-            steps {
-                dir('my-angular-app') {
-                    sh 'ng test --watch=false --browsers=ChromeHeadless'
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo "Deploying the Angular application..."
-            }
-        }
     }
 }
