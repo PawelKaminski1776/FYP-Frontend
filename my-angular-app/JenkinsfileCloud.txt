@@ -9,9 +9,25 @@ pipeline {
         CI = "true"
         DOCKER_IMAGE = "angular-app"
         CONTAINER_NAME = "angular-container"
+		GITHUB_TOKEN = credentials('github-api-token')
     }
 
     stages {
+		stage('Initial Cleanup Workspace') {
+            steps {
+                script {
+                    sh """
+                        echo Cleaning up workspace...
+
+                        # Remove everything except .git directory
+                        find . -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
+
+                        echo Workspace cleanup completed.
+                    """
+                }
+            }
+        }
+		
         stage('Checkout') {
             steps {
                 checkout scm: [
@@ -39,5 +55,40 @@ pipeline {
                 """
             }
         }
+		
+		stage('Checkout Tests') {
+            steps {
+                checkout scm: [
+                    $class: 'GitSCM', 
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/PawelKaminski1776/FYP-Automation.git',
+					credentialsId: 'github-api-token']]
+                ]
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+				dir('FYP-Automation') {
+					sh "docker build -f Automation.dockerfile -t ${DOCKER_IMAGE} ."
+				}
+            }
+        }
+		
+		stage('Cleanup Workspace') {
+            steps {
+                script {
+                    sh """
+                        echo Cleaning up workspace...
+
+                        # Remove everything except .git directory
+                        find . -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
+
+                        echo Workspace cleanup completed.
+                    """
+                }
+            }
+        }
+
     }
 }
