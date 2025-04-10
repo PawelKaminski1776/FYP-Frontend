@@ -67,7 +67,7 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Run Tests') {
             steps {
 				dir('FYP-Automation') {
 					sh "docker build -f Automation.dockerfile -t ${DOCKER_IMAGE} ."
