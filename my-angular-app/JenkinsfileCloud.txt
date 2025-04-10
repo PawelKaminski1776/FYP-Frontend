@@ -70,7 +70,7 @@ pipeline {
         stage('Run Tests') {
             steps {
 				dir('FYP-Automation') {
-					sh "docker build -f Automation.dockerfile -t ${DOCKER_IMAGE} ."
+					sh "docker build --no-cache -f Automation.dockerfile -t ${DOCKER_IMAGE} ."
 				}
             }
         }
