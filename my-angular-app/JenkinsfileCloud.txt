@@ -56,25 +56,6 @@ pipeline {
             }
         }
 		
-		stage('Checkout Tests') {
-            steps {
-                checkout scm: [
-                    $class: 'GitSCM', 
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[url: 'https://github.com/PawelKaminski1776/FYP-Automation.git',
-					credentialsId: 'github-api-token']]
-                ]
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-				dir('FYP-Automation') {
-					sh "docker build --no-cache -f Automation.dockerfile -t ${DOCKER_IMAGE} ."
-				}
-            }
-        }
-		
 		stage('Cleanup Workspace') {
             steps {
                 script {
