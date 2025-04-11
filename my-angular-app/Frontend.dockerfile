@@ -7,7 +7,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . . 
-RUN npm run build -- --configuration production
+RUN NODE_OPTIONS="--max_old_space_size=2048" npm run build -- --configuration production
 
 # Stage 2: Serve with Nginx
 FROM nginx:latest
