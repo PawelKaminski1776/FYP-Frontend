@@ -86,6 +86,19 @@ export class InspectionscrapingpageComponent implements OnInit {
     });
   }
 
+  onSynch(): void {
+    this.http.get<any>(`${environment.GetImagesAndAnnotationsApiUrl}/Api/GetImagesAndAnnotations/GetAnnotations`, this.GetImagesForm.value)
+    .subscribe({
+      next: (response) => {
+        this.router.navigate([`Inspectiontraining/${this.inspectionName}`]);
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        this.load = false;
+      }
+    });
+  }
+
   onSubmit(): void {
     this.load = true;
     this.http.post<any>(`${environment.GetImagesAndAnnotationsApiUrl}/Api/GetImagesAndAnnotations/GetAnnotations`, this.GetImagesForm.value)

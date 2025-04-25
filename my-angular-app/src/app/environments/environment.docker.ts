@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   UserDetailsapiUrl: 'http://34.147.254.222:5001',
   CheckLoginapiUrl: 'http://34.147.254.222:5003',
   SendTrainingDataapiUrl: 'http://34.147.254.222:5005',

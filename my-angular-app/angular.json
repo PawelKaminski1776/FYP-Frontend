@@ -64,6 +64,14 @@
                 }
               ]
             },
+            "aws": {
+              "fileReplacements": [
+                {
+                  "replace": "src/app/environments/environment.aws.ts",
+                  "with": "src/app/environments/environment.localhost.ts"
+                }
+              ]
+            },
             "docker": {
               "fileReplacements": [
                 {
@@ -80,6 +88,9 @@
           "configurations": {
             "production": {
               "buildTarget": "my-angular-app:build:production"
+            },
+            "aws": {
+              "buildTarget": "my-angular-app:build:aws"
             },
             "development": {
               "buildTarget": "my-angular-app:build:development"
