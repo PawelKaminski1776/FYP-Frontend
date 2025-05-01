@@ -20,7 +20,7 @@ interface Annotations {
 
 interface Data {
   image: string;
-  annotations: Annotations;
+  annotations: Annotations | null;
   id?: string;
 }
 
@@ -38,12 +38,15 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
   annotations!: Annotations;
   inspectionData: any = null;
   @ViewChild('imageContainer') imageContainer!: ElementRef;
-  objectKeys = Object.keys;
   imageUrl!: string;
 
   private hoveredBoundingBox: HTMLElement | null = null;
 
   constructor(private http: HttpClient, private sessionStorageService: SessionStorageService) {}
+
+  objectKeys(obj: object | null | undefined): string[] {
+    return obj && typeof obj === 'object' ? Object.keys(obj) : [];
+  }
 
   ngOnInit(): void {
     this.http.get(`${environment.GetImagesAndAnnotationsApiUrl}/Api/GetImagesAndAnnotations/${this.data.image}`, {
@@ -53,7 +56,10 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
 
         const objectURL = URL.createObjectURL(blob);
         this.imageUrl = objectURL;
-        this.annotations = this.data.annotations;
+        if(this.data.annotations)
+        {
+          this.annotations = this.data.annotations;
+        }
   
       },
       error: (error) => {
@@ -144,30 +150,33 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
         return;
     }
 
-    // Retrieve the current inspection data
+
     this.inspectionData = this.sessionStorageService.getItem('inspectionData');
 
-    if (this.inspectionData) {
+    if (this.inspectionData && Array.isArray(this.inspectionData)) {
       this.inspectionData.forEach((item: any) => {
-          if (!item.annotations) return;
-  
-          Object.keys(item.annotations).forEach(category => {
-              item.annotations[category] = item.annotations[category].map((annotation: any) => {
-                  if (annotation.id === annotationId) {
-                      //console.log(`Updating annotation ID: ${annotationId} in category: ${category}`);
-  
-                      annotation.bounding_box[0] = x ?? annotation.bounding_box[0];
-                      annotation.bounding_box[1] = y ?? annotation.bounding_box[1];
-                      annotation.bounding_box[2] = width ?? annotation.bounding_box[2];
-                      annotation.bounding_box[3] = height ?? annotation.bounding_box[3];
-                  }
-                  return annotation;
-              });
+        if (!item || !item.annotations || typeof item.annotations !== 'object') return;
+    
+        Object.keys(item.annotations || {}).forEach(category => {
+          const annotationsArray = item.annotations?.[category];
+          if (!Array.isArray(annotationsArray)) return;
+    
+          item.annotations[category] = annotationsArray.map((annotation: any) => {
+            if (!annotation || !annotation.bounding_box || !Array.isArray(annotation.bounding_box)) return annotation;
+    
+            if (annotation.id === annotationId) {
+              annotation.bounding_box[0] = x ?? annotation.bounding_box[0];
+              annotation.bounding_box[1] = y ?? annotation.bounding_box[1];
+              annotation.bounding_box[2] = width ?? annotation.bounding_box[2];
+              annotation.bounding_box[3] = height ?? annotation.bounding_box[3];
+            }
+    
+            return annotation;
           });
+        });
       });
-  
+
       this.sessionStorageService.setItem('inspectionData', this.inspectionData);
-      //console.log("Updated inspection data:", this.inspectionData);
   }
   
         
@@ -186,6 +195,7 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
   private setupDeleteBoundingBox(): void {
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Delete' && this.hoveredBoundingBox) {
+        console.log("Hello");
         this.deleteBoundingBox(this.hoveredBoundingBox);
       }
     });
@@ -206,5 +216,6 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
     interact('.bounding-box').unset();
 
     this.emitUpdatedAnnotations({ annotations: this.annotations, image: this.data.image });
+
   }
 }

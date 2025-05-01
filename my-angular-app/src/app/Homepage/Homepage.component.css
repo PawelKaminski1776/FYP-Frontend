@@ -4,6 +4,18 @@ body{
   
 }
 
+.fixed-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050; 
+  margin: 10px; 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .main {
   background-color: 	#116530;
   padding: 20px;
@@ -28,6 +40,11 @@ body{
   margin-top: 100px;
 }
 
+.table {
+  width: 1000px;
+  color: #2c2c2c;
+}
+
 .img-text {
   color: #2c2c2c;
   display: flex; 
@@ -36,6 +53,10 @@ body{
   justify-content: center;
   position: relative;
   animation: fadeInUp, 2s;
+}
+
+.card {
+  width: 1000px;
 }
 
 

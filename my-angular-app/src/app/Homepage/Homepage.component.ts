@@ -1,28 +1,71 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../Navbar/Navbar.component';
-import { OnInit } from '@angular/core';
 import { SessionStorageService } from '../storage.service';
 import { NavigationService } from '../navigation.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-homepage', 
+  selector: 'app-homepage',
   templateUrl: './Homepage.component.html',
   styleUrls: ['./Homepage.component.css'],
-  imports: [NavbarComponent]
+  imports: [NavbarComponent, CommonModule]
 })
 export class HomepageComponent implements OnInit {
-    isLoggedIn = true; 
-    constructor(private sessionStorageService: SessionStorageService, private navigationService: NavigationService){}
-    ngOnInit(): void {
-      this.sessionStorageService.setItem('loggedIn', true);
-    }
+  isLoggedIn = true; 
+  showAlert = false;
+  alertType = 'success';
+  alertMessage = 'Operation completed successfully!';
+  modeldetails : any[] = []; 
+  imagetrainingdetails : any[] = []; 
+  username = '';
 
-    LogOut(): void {
-      this.sessionStorageService.clear();
-      this.isLoggedIn = false;
-      setTimeout(() => {
-        this.navigationService.navigateTo('/login');
-      }, 100);
+  constructor(
+    private sessionStorageService: SessionStorageService,
+    private navigationService: NavigationService,
+    private http: HttpClient,
+  ) {}
+
+  ngOnInit(): void {
+    this.sessionStorageService.setItem('loggedIn', true);
+    // Check if the alert message needs to be shown on init
+    if (this.sessionStorageService.getItem('showAlert') === true) {
+      this.alertMessage = this.sessionStorageService.getItem('alertmessage');
+      this.showAlert = true;
     }
     
+    this.username = this.sessionStorageService.getItem('Username');
+    const params = {
+      username:  this.username
+    };
+
+    this.modeldetails = JSON.parse(this.sessionStorageService.getItem('Models'));
+    console.log(this.modeldetails);
+    this.http.get<any>(
+            `${environment.ShowInspectionDetailsApiUrl}/Api/ShowInspectionDetails/GetInspectionDetails`,
+            { params }
+          ).subscribe({
+            next: (response) => {
+              this.imagetrainingdetails = response.data
+            },
+            error: (error) => {
+              console.error('Error:', error);
+            }
+          });
+  }
+
+  closeAlert() {
+    this.showAlert = false;
+    this.sessionStorageService.setItem('showAlert', false);
+  }
+
+
+  LogOut(): void {
+    this.sessionStorageService.clear();
+    this.isLoggedIn = false;
+    setTimeout(() => {
+      this.navigationService.navigateTo('/login');
+    }, 100);
+  }
 }

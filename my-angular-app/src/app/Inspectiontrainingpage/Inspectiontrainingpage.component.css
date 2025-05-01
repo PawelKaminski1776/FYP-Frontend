@@ -13,20 +13,23 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 1700px;
+  max-height: auto;
+  min-height: auto;
 }
 
 .Image-Column {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: 1400px;
+  max-height: auto;
+  min-height: auto;
 }
 
 
 .Card-Row {
   margin-top: 50px;
-  height: 1400px;
+  max-height: auto;
+  min-height: auto;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

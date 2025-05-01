@@ -98,32 +98,28 @@ export class InspectiontrainingpageComponent implements OnInit {
   updateAnnotations(): void {
     this.ChangedInspectionData = this.sessionStorageService.getItem('inspectionData');
 
-    //console.log("Updated inspection data:");
+    /*console.log("Updated inspection data:");
         for (let i = 0; i < this.ChangedInspectionData.length; i++) {
-            //console.log(`Item ${i + 1}:`, this.ChangedInspectionData[i]);
+            console.log(`Item ${i + 1}:`, this.ChangedInspectionData[i]);
 
             if (this.ChangedInspectionData[i].annotations) {
-                //console.log(`Annotations for Item ${i + 1}:`);
+                console.log(`Annotations for Item ${i + 1}:`);
                 
-                // Iterate through annotation categories
                 for (const category in this.ChangedInspectionData[i].annotations) {
                     if (this.ChangedInspectionData[i].annotations.hasOwnProperty(category)) {
-                        //console.log(`  Category: ${category}`);
-                        
-                        // Iterate through annotations in the category
                         for (let j = 0; j < this.ChangedInspectionData[i].annotations[category].length; j++) {
-                            //console.log(`    Annotation ${j + 1}:`, this.ChangedInspectionData[i].annotations[category][j]);
+                            console.log(`    Annotation ${j + 1}:`, this.ChangedInspectionData[i].annotations[category][j]);
                         }
                     }
                 }
             }
-        }
+        }*/
   }
 
   
 
   onSubmit(event?: Event) {
-    if (event) event.preventDefault(); 
+    /* if (event) event.preventDefault(); 
     const requestData = {
       data: this.ChangedInspectionData,
       ModelUrl: this.sessionStorageService.getItem('ModelURL')
@@ -133,7 +129,8 @@ export class InspectiontrainingpageComponent implements OnInit {
       .post<any>(`${environment.SendImagesAndAnnotationsApiUrl}/Api/SendAnnotationsAndImages/SendAnnotations`, requestData)
       .subscribe({
         next: (response) => {
-          if (response.Message === "Success") {
+          console.log(response);
+          if (response.message === "Success") {
             setTimeout(() => {
               console.log("Trigger ended");
               this.navigationService.navigateTo('/home');
@@ -146,6 +143,6 @@ export class InspectiontrainingpageComponent implements OnInit {
           this.apiError = error.error?.message || 'Error Sending Data';
           console.error('Error:', error);
         },
-      });
+      });*/
   }
 }

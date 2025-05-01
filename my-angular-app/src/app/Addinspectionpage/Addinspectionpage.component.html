@@ -16,6 +16,12 @@
           <label for="Inspectionname">Inspection Name</label>
           <input type="text" class="form-control" id="Inspectionname" formControlName="Inspectionname" placeholder="e.g. Occupancy" required>
         </div>
+
+        <div class="mb-3">
+          <label for="Inspectionname">Labels in order (Differiate by ',')</label>
+          <input type="text" class="form-control" id="Labels" formControlName="Labels" placeholder="e.g. Lawn" required>
+        </div>
+
         <button type="submit" class="btn btn-primary mt-3">Submit</button>
         <p *ngIf="InspectionOutput" style="color: green;">{{ InspectionOutput }}</p>
       </form>

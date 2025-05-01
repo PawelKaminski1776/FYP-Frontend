@@ -4,7 +4,6 @@
   <div class="spinner-border" role="status">
       <span class="visually-hidden"></span>
   </div>
-  <h1>Loading</h1>
 </div>
 }
 <div class="Card-Column">
@@ -15,10 +14,36 @@
             </h5>
             <p class="card-text">Status: {{ model?.status }}</p>
             <p class="card-text">Model URL in Python: {{ model?.modelURL }}</p>
-            <button type="synch" class="btn btn-primary mt-3" >Synch With S3</button>
+            <button (click)="onSynch()" class="btn btn-primary mt-3" >Synch With S3</button>
         </div>
+        <p *ngIf="synchResponse" style="color: green;">{{ synchResponse }}</p>
     </div>
     </div>
+  <div class="Card-Row">
+    <div class="form-check">
+      <input class="form-check-input"
+            type="radio"
+            name="trainingMode"
+            id="flexRadioDefault1"
+            [(ngModel)]="selectedMode"
+            value="semi">
+      <label class="form-check-label" for="flexRadioDefault1">
+        Start Semi-Automatic Training
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input"
+            type="radio"
+            name="trainingMode"
+            id="flexRadioDefault2"
+            [(ngModel)]="selectedMode"
+            value="automatic"
+            checked>
+      <label class="form-check-label" for="flexRadioDefault2">
+        Start Automatic Training
+      </label>
+    </div>
+  </div>
 <div class="Card-Row">
     <form [formGroup]="GetImagesForm" (ngSubmit)="onSubmit()">
       <div class="form-floating mb-3">
@@ -32,10 +57,12 @@
           <option value="Daft">Daft</option>
         </select>
       </div>
-      <div class="form-floating">
+      
+      <div class="form-floating" *ngIf="GetImagesForm.get('website')?.value === 'Daft'">
         <label for="floatingCounty">County</label>
         <input type="text" class="form-control" id="floatingCounty" formControlName="county" placeholder="County" required>
       </div>
+      
       
       <button type="submit" class="btn btn-primary mt-3" >Submit</button>
     </form>

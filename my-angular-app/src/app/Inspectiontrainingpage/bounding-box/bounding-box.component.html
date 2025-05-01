@@ -2,17 +2,19 @@
   <img [src]="imageUrl" alt="Annotated Image" class="image">
   
   <!-- Loop through each category -->
-  <div *ngFor="let category of objectKeys(annotations)">
-    <div *ngFor="let box of annotations[category]" 
-         class="bounding-box"
-         [attr.data-id]="box.id"
-         [style.left.px]="box.bounding_box[0]"
-         [style.top.px]="box.bounding_box[1]"
-         [style.width.px]="box.bounding_box[2] - box.bounding_box[0]"
-         [style.height.px]="box.bounding_box[3] - box.bounding_box[1]"
-         [attr.data-x]="box.bounding_box[0]"
-         [attr.data-y]="box.bounding_box[1]">
-      <span class="label">{{ box.class_name }}</span>
-    </div>
-  </div>    
+  <div *ngIf="data.annotations">
+    <div *ngFor="let category of objectKeys(annotations)">
+      <div *ngFor="let box of annotations[category]" 
+          class="bounding-box"
+          [attr.data-id]="box.id"
+          [style.left.px]="box.bounding_box[0]"
+          [style.top.px]="box.bounding_box[1]"
+          [style.width.px]="box.bounding_box[2] - box.bounding_box[0]"
+          [style.height.px]="box.bounding_box[3] - box.bounding_box[1]"
+          [attr.data-x]="box.bounding_box[0]"
+          [attr.data-y]="box.bounding_box[1]">
+        <span class="label">{{ box.class_name }}</span>
+      </div>
+    </div>    
+  </div>
 </div>

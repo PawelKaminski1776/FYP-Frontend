@@ -1,5 +1,5 @@
 import { Component, OnInit, NgModule } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SessionStorageService } from '../storage.service';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   selector: 'app-inspectionscrapingpage',
   templateUrl: './Inspectionscrapingpage.component.html',
   styleUrls: ['./Inspectionscrapingpage.component.css'],
-  imports: [ReactiveFormsModule, CommonModule, NavbarComponent],
+  imports: [ReactiveFormsModule, CommonModule, NavbarComponent, FormsModule],
   standalone: true,
   providers: []
 })
@@ -25,6 +25,9 @@ export class InspectionscrapingpageComponent implements OnInit {
   model: any; 
   models: any[] = []; 
   load = false;
+  synchResponse = '';
+  selectedMode: string = 'automatic';
+  textfields: string[] = ['']; 
 
   annotations = [];
 
@@ -87,10 +90,14 @@ export class InspectionscrapingpageComponent implements OnInit {
   }
 
   onSynch(): void {
-    this.http.get<any>(`${environment.GetImagesAndAnnotationsApiUrl}/Api/GetImagesAndAnnotations/GetAnnotations`, this.GetImagesForm.value)
-    .subscribe({
+    const params = { ModelURL: this.model?.modelURL ?? '' };
+  
+    this.http.get<any>(
+      `${environment.SynchModelsToS3Url}/Api/SynchModels/Synch`,
+      { params }
+    ).subscribe({
       next: (response) => {
-        this.router.navigate([`Inspectiontraining/${this.inspectionName}`]);
+        this.synchResponse = "Synch with S3 Successful";
       },
       error: (error) => {
         console.error('Error:', error);
@@ -99,12 +106,54 @@ export class InspectionscrapingpageComponent implements OnInit {
     });
   }
 
+  checkTrainingMode() {
+    if (this.selectedMode === 'automatic') {
+      console.log('Automatic training selected');
+    } else if (this.selectedMode === 'semi') {
+      console.log('Semi-automatic training selected');
+    }
+  }
+  
   onSubmit(): void {
     this.load = true;
-    this.http.post<any>(`${environment.GetImagesAndAnnotationsApiUrl}/Api/GetImagesAndAnnotations/GetAnnotations`, this.GetImagesForm.value)
-      .subscribe({
+  
+    const formValues = this.GetImagesForm.value;
+  
+    if (this.selectedMode === 'automatic') {
+      console.log('Automatic training selected');
+
+      const params = {
+        ModelUrl: this.model?.modelURL ?? '',
+        NumberOfImgs: formValues.numOfImages,
+        county: formValues.county,
+        inspection: this.inspectionName
+      };
+  
+      this.http.get<any>(
+        `${environment.StartAutomaticTraining}/Api/AutomaticTraining/StartAutomaticTraining`,
+        { params }
+      ).subscribe({
         next: (response) => {
-          this.sessionStorageService.setItem('inspectionData',response.data);
+          this.load = false;
+          this.sessionStorageService.setItem('showAlert', true);
+          this.sessionStorageService.setItem('alertmessage', 'Training Started Successfully');
+          this.router.navigate(['home']);
+        },
+        error: (error) => {
+          console.error('Error:', error);
+          this.load = false;
+        }
+      });
+  
+    } else if (this.selectedMode === 'semi') {
+      console.log('Semi-automatic training selected');
+  
+      this.http.post<any>(
+        `${environment.GetImagesAndAnnotationsApiUrl}/Api/GetImagesAndAnnotations/GetAnnotations`,
+        formValues
+      ).subscribe({
+        next: (response) => {
+          this.sessionStorageService.setItem('inspectionData', response.data);
           this.router.navigate([`Inspectiontraining/${this.inspectionName}`]);
         },
         error: (error) => {
@@ -112,5 +161,7 @@ export class InspectionscrapingpageComponent implements OnInit {
           this.load = false;
         }
       });
+    }
   }
+  
 }

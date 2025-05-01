@@ -5,6 +5,7 @@ export const environment = {
     SendTrainingDataapiUrl: 'http://localhost:5005',
     ReceiveModelDataApiUrl: 'http://localhost:5009',
     GetImagesAndAnnotationsApiUrl: 'http://localhost:5011',
-    SendImagesAndAnnotationsApiUrl: 'https://localhost:5014',
+    SendImagesAndAnnotationsApiUrl: 'http://localhost:5013',
+    SynchModelsToS3Url: 'http://localhost:5015',
     featureFlag: true
 };

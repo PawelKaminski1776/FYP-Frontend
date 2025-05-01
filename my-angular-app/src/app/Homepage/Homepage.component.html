@@ -1,27 +1,51 @@
+@if(showAlert){
+    <div class="alert alert-{{ alertType }} alert-dismissible fade show fixed-top" role="alert">
+      {{ alertMessage }}
+      <button type="button" class="btn btn-success" aria-label="Close" (click)="closeAlert()">Close</button>
+    </div>
+}
 <app-navbar></app-navbar>
 <div class="Page-Column">
     <div class="Page-Row">
-      <div class="card" style="width: 18rem; ">
-          <img src="..." class="card-img-top" alt="...">
-          <div class="card-body">
-          <h5 class="card-title">Train a new Model</h5>
-          <p class="card-text">Train and Save a new Inspection Process.</p>
-          <a routerLink="/InspectionTraining" href="/InspectionTraining" class="btn btn-primary">Train a Model</a>
-          </div>
-      </div>
-      <div class="card" style="width: 18rem;">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      </div>
-      <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">A second item</li>
-          <li class="list-group-item">A third item</li>
-      </ul>
-          <a routerLink="/InspectionTraining" href="/InspectionTraining" class="card-link">Card link</a>
-          <a routerLink="/InspectionTraining" href="/InspectionTraining" class="card-link">Another link</a>
-      </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Number</th>
+                    <th scope="col">Inspection</th>
+                    <th scope="col">Number of Images Processed</th>
+                    <th scope="col">County Images Taken</th>
+                    <th scope="col">Overall Loss Rate</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let imagetrainingdetail of imagetrainingdetails">
+                <tr>
+                    <td scope="row">{{ imagetrainingdetail.id }}</td>
+                    <td>{{ imagetrainingdetail.inspectionname }}</td>
+                    <td>{{ imagetrainingdetail.numOfImages }}</td>
+                    <td>{{ imagetrainingdetail.county }}</td>
+                    <td>{{ imagetrainingdetail.overalllossrate }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="Page-Row">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Inspection Name</th>
+                    <th scope="col">Total Number of Images Processed</th>
+                    <th scope="col">Current Accuracy</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let modeldetail of modeldetails">
+                <tr>
+                    <td>{{ modeldetail.inspectionName }}</td>
+                    <td>N/a</td>
+                    <td>N/a</td>
+                    <td>{{ modeldetail.status }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

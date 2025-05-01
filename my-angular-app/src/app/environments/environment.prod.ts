@@ -1,10 +1,13 @@
 export const environment = {
   production: true,
-  UserDetailsapiUrl: 'http://16.16.217.120:5001',
-  CheckLoginapiUrl: 'http://16.16.217.120:5003',
-  SendTrainingDataapiUrl: 'http://16.16.217.120:5005',
-  ReceiveModelDataApiUrl: 'http://16.16.217.120:5009',
-  GetImagesAndAnnotationsApiUrl: 'http://16.16.217.120:5011',
-  SendImagesAndAnnotationsApiUrl: 'http://16.16.217.120:5014',
+  UserDetailsapiUrl: 'http://fyp-load-balancer-backend-eeb6b2ee02c9c9e8.elb.eu-north-1.amazonaws.com:5001',
+  CheckLoginapiUrl: 'http://fyp-load-balancer-backend-eeb6b2ee02c9c9e8.elb.eu-north-1.amazonaws.com:5003',
+  SendTrainingDataapiUrl: 'http://fyp-load-balancer-backend-eeb6b2ee02c9c9e8.elb.eu-north-1.amazonaws.com:5005',
+  ReceiveModelDataApiUrl: 'http://fyp-load-balancer-backend-eeb6b2ee02c9c9e8.elb.eu-north-1.amazonaws.com:5009',
+  GetImagesAndAnnotationsApiUrl: 'http://fyp-load-balancer-backend-eeb6b2ee02c9c9e8.elb.eu-north-1.amazonaws.com:5011',
+  SendImagesAndAnnotationsApiUrl: 'http://fyp-load-balancer-backend-eeb6b2ee02c9c9e8.elb.eu-north-1.amazonaws.com:5013',
+  SynchModelsToS3Url: 'http://fyp-load-balancer-backend-eeb6b2ee02c9c9e8.elb.eu-north-1.amazonaws.com:5015',
+  StartAutomaticTraining: 'http://localhost:5019',
+  ShowInspectionDetailsApiUrl: 'http://localhost:5023',
   featureFlag: true
 };
