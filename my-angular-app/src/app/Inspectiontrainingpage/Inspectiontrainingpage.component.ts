@@ -54,6 +54,33 @@ export class InspectiontrainingpageComponent implements OnInit {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
     }
+
+    this.inspectionData = this.sessionStorageService.getItem('inspectionData');
+
+
+
+    if (this.inspectionData) {
+        this.inspectionData.forEach((item: any, index: number) => {
+            console.log(`Item ${index + 1}:`, item);
+
+            // Ensure each annotation has an ID
+            if (item.annotations) {
+                Object.keys(item.annotations).forEach(category => {
+                    item.annotations[category] = item.annotations[category].map((annotation: Annotation, annotationIndex: number) => ({
+                        ...annotation,
+                        id: annotation.id || `annotation-${category}-${index}-${annotationIndex}`
+                    }));
+                });
+            console.log(item.annotations);
+            }
+        });
+
+        // Save back to sessionStorage
+        this.sessionStorageService.setItem('inspectionData', this.inspectionData);
+    }
+    
+
+
   }
 
   annotations = [];
@@ -70,6 +97,8 @@ export class InspectiontrainingpageComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
         this.inspectionName = params.get('inspectionName') || '';
         this.inspectionData = this.sessionStorageService.getItem('inspectionData');
+
+
 
         if (this.inspectionData) {
             this.inspectionData.forEach((item: any, index: number) => {
@@ -119,10 +148,14 @@ export class InspectiontrainingpageComponent implements OnInit {
   
 
   onSubmit(event?: Event) {
-    /* if (event) event.preventDefault(); 
+    if (event) event.preventDefault(); 
+    console.log(this.sessionStorageService.getItem('ModelURL') + this.sessionStorageService.getItem('NumberOfImgs') + this.sessionStorageService.getItem('inspection') + this.sessionStorageService.getItem('county'))
     const requestData = {
       data: this.ChangedInspectionData,
-      ModelUrl: this.sessionStorageService.getItem('ModelURL')
+      ModelUrl: this.sessionStorageService.getItem('ModelURL'), 
+      numofimgs: this.sessionStorageService.getItem('NumberOfImgs'),
+      inspectionname: this.sessionStorageService.getItem('inspection'),
+      county: this.sessionStorageService.getItem('county'),
     };
     console.log(JSON.stringify(requestData));
     this.http
@@ -133,6 +166,8 @@ export class InspectiontrainingpageComponent implements OnInit {
           if (response.message === "Success") {
             setTimeout(() => {
               console.log("Trigger ended");
+              this.sessionStorageService.setItem('showAlert', true);
+              this.sessionStorageService.setItem('alertmessage', 'Training Started Successfully');
               this.navigationService.navigateTo('/home');
             }, 100);
           } else {
@@ -143,6 +178,6 @@ export class InspectiontrainingpageComponent implements OnInit {
           this.apiError = error.error?.message || 'Error Sending Data';
           console.error('Error:', error);
         },
-      });*/
+      });
   }
 }

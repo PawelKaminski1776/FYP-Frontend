@@ -15,6 +15,7 @@
                     <th scope="col">Number of Images Processed</th>
                     <th scope="col">County Images Taken</th>
                     <th scope="col">Overall Loss Rate</th>
+                    <th scope="col">Loss Per Image</th>
                 </tr>
             </thead>
             <tbody *ngFor="let imagetrainingdetail of imagetrainingdetails">
@@ -24,6 +25,7 @@
                     <td>{{ imagetrainingdetail.numOfImages }}</td>
                     <td>{{ imagetrainingdetail.county }}</td>
                     <td>{{ imagetrainingdetail.overalllossrate }}</td>
+                    <td>{{ imagetrainingdetail.lossPerImage }}</td>
                 </tr>
             </tbody>
         </table>
@@ -33,16 +35,12 @@
             <thead>
                 <tr>
                     <th scope="col">Inspection Name</th>
-                    <th scope="col">Total Number of Images Processed</th>
-                    <th scope="col">Current Accuracy</th>
                     <th scope="col">Status</th>
                 </tr>
             </thead>
             <tbody *ngFor="let modeldetail of modeldetails">
                 <tr>
                     <td>{{ modeldetail.inspectionName }}</td>
-                    <td>N/a</td>
-                    <td>N/a</td>
                     <td>{{ modeldetail.status }}</td>
                 </tr>
             </tbody>

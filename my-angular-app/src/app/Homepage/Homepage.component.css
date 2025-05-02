@@ -35,7 +35,8 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: 500px;
+  max-height: auto;
+  min-height: auto;
   min-width: none;
   margin-top: 100px;
 }

@@ -118,10 +118,15 @@ export class InspectionscrapingpageComponent implements OnInit {
     this.load = true;
   
     const formValues = this.GetImagesForm.value;
-  
+    
+    this.sessionStorageService.setItem('NumberOfImgs', formValues.numOfImages)
+    this.sessionStorageService.setItem('county',  formValues.county)
+    this.sessionStorageService.setItem('inspection', this.inspectionName);
+
     if (this.selectedMode === 'automatic') {
       console.log('Automatic training selected');
 
+      
       const params = {
         ModelUrl: this.model?.modelURL ?? '',
         NumberOfImgs: formValues.numOfImages,

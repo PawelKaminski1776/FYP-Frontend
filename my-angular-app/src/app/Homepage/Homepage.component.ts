@@ -48,6 +48,13 @@ export class HomepageComponent implements OnInit {
           ).subscribe({
             next: (response) => {
               this.imagetrainingdetails = response.data
+              this.imagetrainingdetails.forEach(detail => {
+                if (detail.numOfImages && detail.overalllossrate != null) {
+                  detail.lossPerImage = detail.overalllossrate / detail.numOfImages;
+                } else {
+                  detail.lossPerImage = 0;
+                }
+              });
             },
             error: (error) => {
               console.error('Error:', error);

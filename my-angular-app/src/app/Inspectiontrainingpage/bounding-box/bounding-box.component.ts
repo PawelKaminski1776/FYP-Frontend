@@ -38,15 +38,12 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
   annotations!: Annotations;
   inspectionData: any = null;
   @ViewChild('imageContainer') imageContainer!: ElementRef;
+  objectKeys = Object.keys!;
   imageUrl!: string;
 
   private hoveredBoundingBox: HTMLElement | null = null;
 
   constructor(private http: HttpClient, private sessionStorageService: SessionStorageService) {}
-
-  objectKeys(obj: object | null | undefined): string[] {
-    return obj && typeof obj === 'object' ? Object.keys(obj) : [];
-  }
 
   ngOnInit(): void {
     this.http.get(`${environment.GetImagesAndAnnotationsApiUrl}/Api/GetImagesAndAnnotations/${this.data.image}`, {
@@ -133,6 +130,13 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
       });
   }
 
+  private emitUpdatedAnnotations(updatedAnnotations: any): void {
+    sessionStorage.setItem('annotations', JSON.stringify(updatedAnnotations.annotations));
+    sessionStorage.setItem('imageUrl', updatedAnnotations.image);
+
+    this.annotationsUpdated.emit(updatedAnnotations.annotations);
+  }
+
   private handleResizeMove(event: any): void {
     const target = event.target;
     const { width, height } = event.rect;
@@ -150,7 +154,7 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
         return;
     }
 
-
+    // Retrieve the current inspection data
     this.inspectionData = this.sessionStorageService.getItem('inspectionData');
 
     if (this.inspectionData && Array.isArray(this.inspectionData)) {
@@ -175,8 +179,10 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
           });
         });
       });
-
+      
       this.sessionStorageService.setItem('inspectionData', this.inspectionData);
+
+      this.emitUpdatedAnnotations({ annotations: this.annotations, image: this.data.image });
   }
   
         
@@ -185,17 +191,11 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
 }
 
 
-  private emitUpdatedAnnotations(updatedAnnotations: any): void {
-    sessionStorage.setItem('annotations', JSON.stringify(updatedAnnotations.annotations));
-    sessionStorage.setItem('imageUrl', updatedAnnotations.image);
-
-    this.annotationsUpdated.emit(updatedAnnotations.annotations);
-  }
+  
 
   private setupDeleteBoundingBox(): void {
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Delete' && this.hoveredBoundingBox) {
-        console.log("Hello");
         this.deleteBoundingBox(this.hoveredBoundingBox);
       }
     });
@@ -203,19 +203,37 @@ export class BoundingBoxComponent implements OnInit, AfterViewInit, OnChanges {
 
   private deleteBoundingBox(target: HTMLElement): void {
     const annotationId = target.getAttribute('data-id');
-
     if (!annotationId) return;
-
+  
     this.annotations = Object.keys(this.annotations).reduce((result, category) => {
       result[category] = this.annotations[category].filter(annotation => annotation.id !== annotationId);
       return result;
     }, {} as Annotations);
-
+  
     target.remove();
-
-    interact('.bounding-box').unset();
-
+  
+    setTimeout(() => {
+      this.makeDraggable();
+    });
+  
     this.emitUpdatedAnnotations({ annotations: this.annotations, image: this.data.image });
-
+  
+    this.inspectionData = this.sessionStorageService.getItem('inspectionData');
+    if (this.inspectionData && Array.isArray(this.inspectionData)) {
+      this.inspectionData.forEach((item: any) => {
+        if (item?.annotations && typeof item.annotations === 'object') {
+          Object.keys(item.annotations).forEach(category => {
+            const annotationsArray = item.annotations[category];
+            if (Array.isArray(annotationsArray)) {
+              item.annotations[category] = annotationsArray.filter(
+                (annotation: any) => annotation.id !== annotationId
+              );
+            }
+          });
+        }
+      });
+    }
+    this.sessionStorageService.setItem('inspectionData', this.inspectionData);
   }
+  
 }
